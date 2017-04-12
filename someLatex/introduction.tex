@@ -1,0 +1,91 @@
+
+\section{Introduction}
+
+Suppose that $X_{k1},\ldots,X_{kn_k}$  are independent identically distributed (i.i.d.) as $N_p(\mu_k,\Sigma_k)$, where $\mu_k$ and $\Sigma_k$ are unknown, $k=1,2$. We consider the hypothesis testing problem:
+
+\begin{equation}\label{problem}
+    H_0:\mu_1=\mu_2\quad \textrm{vs.}\quad H_1:\mu_1\neq \mu_2.
+\end{equation}
+ In this paper, high dimensional setting is adopted, i.e., the dimension $p$ varies as $n$ increase, where $n=n_1+n_2$ is the total sample size.
+Testing hypotheses~\eqref{problem} is important in many applications, including biology, finance and economics.
+Quite often,  these data have strong correlations between variables.
+When strong correlations exist, covariance matrices are often spiked in the sense that a few eigenvalues are distinctively larger than the others.
+This paper is devoted to
+testing hypotheses~\eqref{problem} in high dimensional setting with spiked covariance.
+
+
+If $\Sigma_1=\Sigma_2=\Sigma$ is unknown, a classical test for hypotheses~\eqref{problem} is Hotelling's $T^2$ test.  Hotelling's test statistic is ${(\bar{X}_1-\bar{X}_2)}^T S^{-1}(\bar{X}_1-\bar{X}_2)$, where $S$ is the pooled sample covariance matrix. However, Hotelling's test is not defined when $p\geq n-1$.
+Moreover,~\cite{Bai1996Efiect} showed that even if $p<n-1$, Hotelling's test suffers from low power when $p$ is comparable to $n$.
+Perhaps, the main reason for low power of Hotelling's test is due to that $S$ is a poor estimator of $\Sigma$ when $p$ is large compared with $n$. See~\cite{Chen2010A} and the references therein.
+In high dimensional setting,  
+many test statistics in the literatures are based on an estimator of ${(\mu_1-\mu_2)}^T A(\mu_1-\mu_2)$ for a given positive definite matrix $A$. 
+For example,~\cite{Bai1996Efiect} proposed a test based on
+\begin{equation*}
+    T_{BS}=\|\bar{X}_1-\bar{X}_2\|^2-(\frac{1}{n_1}+\frac{1}{n_2})\mathrm{tr}S,
+\end{equation*}
+which is an unbiased estimator of $\|\mu_1-\mu_2\|^2$.~\cite{Chen2010A} modified $T_{BS}$ by removing terms $\sum_{i=1}^{n_k}X_{ki}^T X_{ki}$, $k=1,2$ and proposed a test based on
+\begin{equation*}
+    \begin{aligned}
+        T_{CQ}&=\frac{\sum_{i\neq j}^{n_1}X_{1i}^T X_{1j}}{n_1(n_1-1)}+\frac{\sum_{i\neq j}^{n_2}X_{2i}^T X_{2j}}{n_2(n_2-1)}-2\frac{\sum_{i=1}^{n_1}\sum_{j=1}^{n_2}X_{1i}^T X_{2j}}{n_1n_2}
+        \\
+            &=\|\bar{X}_1-\bar{X}_2\|^2-\frac{1}{n_1}\mathrm{tr}S_1-\frac{1}{n_2}\mathrm{tr}S_2,
+    \end{aligned}
+\end{equation*}
+where $S_1$ and $S_2$ are sample covariance matrices. Statistic $T_{CQ}$ 
+is also an unbiased estimator of $\|\mu_1-\mu_2\|^2$. Choosing $A={[\mathrm{diag}(\Sigma)]}^{-1}$,~\cite{Srivastava2008A} proposed a test based on
+\begin{equation*}
+    T_{S}={(\bar{X}_1-\bar{X}_2)}^T {[\mathrm{diag}(S)]}^{-1}(\bar{X}_1-\bar{X}_2),
+\end{equation*}
+where $\textrm{diag} (A)$ is a diagonal matrix with the same diagonal elements as $A$'s.
+%To characterize strong correlation between variables,~\cite{Ma2015A} adopted a factor model proposed a test based on
+%\begin{equation}\label{compete2}
+ %    T_{FAST}=\frac{n_1 n_2}{n_1+n_2}\|\bar{X}_1-\bar{X}_2\|^2-(\mathrm{tr} S- \sum_{i=1}^{\hat{r}} \lambda_l(S))
+%\end{equation}
+
+As~\cite{Ma2015A} pointed out, however, these test procedures may not be valid if strong correlations exist, i.e., $\Sigma$ is far away from diagonal matrix. For example, the assumption 
+%$$
+%\mathrm{tr}(\Sigma_i \Sigma_j \Sigma_l \Sigma_h)=o[\mathrm{tr}^2\{{(\Sigma_1+\Sigma_2)}^2\}]\quad\quad  \textrm{for}\, i,j,l,h=1\,\textrm{or}\,2
+%$$ 
+\begin{equation}\label{chenscondition}
+\mathrm{tr}(\Sigma^4)=o[\mathrm{tr}^2\{{(\Sigma)}^2\}]
+\end{equation}
+adopted by~\cite{Chen2010A} can be violated when $\Sigma=(1-c)I_p+c\bm{1}_p \bm{1}_p^T$ where $-{1}/{(p-1)}<c<1$, $I_p$ is the $p$ dimensional identity matrix and $\bm{1}_p$ is the $p$ dimensional vector  with elements $1$.
+To characterize strong correlations,~\cite{Ma2015A} considered a factor model and proposed a parameter bootstrap procedure to adjust~\cite{Chen2010A}'s critical value.
+
+Strong correlations between variables do exist in practice. In gene expression analysis, genes are correlated due to genetic regulatory networks (see~\cite{Thulin2014A}).~\cite{Chen2011A} pointed out that in terms of pathway analysis in proteomic studies,  test level can not be guaranteed if correlations are incorrectly assumed to be absent.
+ As~\cite{Ma2015A} argued, there're strong correlations between different stock returns since they are all affected by the market index.
+
+Incorrectly assuming the absence of correlation between variables will result in level inflation and low power for a test procedure. A class of test procedures is proposed through random projection (see~\cite{Lopes2015A},~\cite{Thulin2014A} and~\cite{Srivastava2014RAPTT}). The idea is to project data on some random lower-dimensional subspaces. It has been shown that these
+procedures perform well under strong correlations. 
+
+In many situations, the correlations are determined by a small number of factors.
+Then $\Sigma$ is spiked (see~\cite{Cai2012Sparse}).
+The random projection methods imply that test procedures are improved when data are projected on certain subspaces.
+We will see that the ideal subspace is the orthogonal complement of the principal space.
+Fortunately, the principal space can be estimated consistently even in high dimensional setting by the theory of principal component analysis (PCA).
+%We find the ideal subspace is the orthogonal complement of the principal space.
+%In this case, we know from the theory of principal component analysis (PCA) that the principal space can be estimated consistently even in high dimensional setting.
+With the assumption of spiked covariance model, we propose a new test procedure through projection on the (estimated) ideal subspace.  
+The asymptotic distribution of the test statistic is derived and hence asymptotic power is given.
+%We will see that the asymptotic power function increases fast. In fact, the increasing rate is of a higher order than that of $T_{CQ}$.
+We will see that the test is more powerful than $T_{CQ}$.
+%Simulation study justifies the well-performance of the new test. Our theoretical results need the assumption $\sqrt{p}/(n_1+n_2)\to 0$. Simulation study shows that if it doesn't converge to $0$, the theorem may not be valid.
+Moreover, even there's no strong correlation showing up, we prove that the new test performs equally well as $T_{CQ}$ does. The idea is also generalized to the unequal variance setting and similar results still hold.
+
+%{\color{red}{To the best of our knowledge,~\cite{Ma2015A} and~\cite{2016arXiv160202491A} are the only work concerned on problem (~\eqref{problem}) when strong correlation exists.
+%\cite{Ma2015A} adopted a factor model and modified the test statistic of~\cite{Chen2010A} to guarantee the test level. But we will see that the test still suffers from low power. In an independent working paper,~\cite{2016arXiv160202491A} adopted a spiked covariance structure, and their statistic is similar to ours. The main advantage of our work is that our theorems don't need strict relationship between $p$ and $n$. And our statistic is invariant under shift.
+%}}
+
+
+%{\color{red}{A fairly recent work~\cite{2016arXiv160202491A} proposed a new test for strongly spiked eigenvalue model. The proposed a test based on an estimation of
+%\begin{equation}
+%    \begin{aligned}
+%        T_{AY}=&\frac{\sum_{i\neq j}^{n_1}X_{1i}^T\tilde{V}_1\tilde{V}_1^T X_{1j}}{n_1(n_1-1)}+\frac{\sum_{i\neq j}^{n_2}X_{2i}^T\tilde{V}_1\tilde{V}_1^T X_{2j}}{n_2(n_2-1)}
+%        \\&-2\frac{\sum_{i=1}^{n_1}\sum_{j=1}^{n_2}X_{1i}^T\tilde{V}_1\tilde{V}_1^T\tilde{V}_2\tilde{V}_2^T X_{2j}}{n_1n_2}
+%    \end{aligned}
+%\end{equation}
+%which is similar to our statistic in form. However, the theory framework is different. And we will see our statistic is different from theirs in some key properties.
+%}}
+
+
+The rest of the paper is organized as follows. In Section 2,  the model and some assumptions are given.  In Section 3, we propose a test procedure under $\Sigma_1=\Sigma_2$. Section 4 exploits properties of the test. In Section 5, we generalize our test procedure to the situation of $\Sigma_1\neq \Sigma_2$. In Section 6, simulations are carried out and  a real data example is given. Section 7 contains some discussion. All the technical details are in appendix.

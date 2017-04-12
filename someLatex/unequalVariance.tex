@@ -1,0 +1,55 @@
+
+\section{Unequal Variance}
+
+In this section, we concern the situation with unequal covariance matrices.
+%With the theoretic work we have done, it's not hard to deal with general case, that is, $\Sigma_1$ and $\Sigma_2$ are both spiked but don't need to be equal.
+Assume $\{X_{11},\ldots, X_{1n_1}\}$ and $\{X_{21},\ldots, X_{2n_2}\}$ are both generated from the model in Assumption~\ref{theModel}.
+Denote by $\hat{V}_k$ the first $r_k$ eigenvectors of $S_k$ for $k=1,2$.
+With a little abuse of notation, let $VV^T$ be the projection on the sum of column spaces of $V_1$ and $V_2$, that is,
+\begin{equation*}
+    VV^T =(V_1,V_2){\big({(V_1,V_2)}^T (V_1,V_2)\big)}^{+}{(V_1,V_2)}^T.
+\end{equation*}
+where $A^{+}$ is the Moore-Penrose inverse of a matrix A. Similarly, let $\hat{V}\hat{V}^T$ be the projection matrix on the sum of column spaces of $\hat{V}_1$ and $\hat{V}_2$.
+ We define $\tilde{V}\tilde{V}^T=I_{p}-VV^T$ and $\hat{\tilde{V}}\hat{\tilde{V}}^T=I_{p}-\hat{V}\hat{V}^T$. 
+
+The previous statistic can not be directly used
+since the principal subspace is different for $X_{1i}$ and $X_{2j}$. The idea here is to remove all large variance terms from $T_{CQ}$ by projecting data on the space $\tilde{V}\tilde{V}^T$. Thus, we propose a new test statistic as
+\begin{equation*}
+\begin{aligned}
+    T_3&=\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2-\frac{1}{n_1}\mathrm{tr}(\hat{\tilde{V}}_1^T S_1\hat{\tilde{V}}_1)-\frac{1}{n_2}\mathrm{tr}(\hat{\tilde{V}}_2^T S_2\hat{\tilde{V}}_2).
+%    T_3=\frac{\sum_{i\neq j}^{n_1}X_{1i}^T\hat{\tilde{V}}\hat{\tilde{V}}^T X_{1j}}{n_1(n_1-1)}+\frac{\sum_{i\neq j}^{n_2}X_{2i}^T\hat{\tilde{V}}\hat{\tilde{V}}^T X_{2j}}{n_2(n_2-1)}
+%    -2\frac{\sum_{i=1}^{n_1}\sum_{j=1}^{n_2}X_{1i}^T\hat{\tilde{V}}\hat{\tilde{V}}^T X_{2j}}{n_1n_2}
+\end{aligned}
+\end{equation*}
+
+
+The theoretical results are parallel to those in equal variance setting.
+
+%Compared with~\cite{2016arXiv160202491A}, our statistic have several advantages.
+%First, our new statistic is invariance under transformation $X_{1i}\mapsto X_{1i}+\mu$ and $X_{2j}\mapsto X_{2j}+\mu$. So the null distribution of our test doesn't effected by $\mu$ and the test level can be guarenteed. 
+%Second, our statistic doesn't rely on any single eigenvector of $\hat{V}$ but on the whole principal space $\hat{V}\hat{V}^T$. As a result, our statistic is uniquely defined. 
+%Third, our statistic enjoys higher computation efficiency than~\cite{2016arXiv160202491A}'s method.
+
+\begin{theorem}\label{myXiaopanpan}
+    Under Assumptions~\ref{balance}-\ref{orderOfBeta} and~\ref{pAndN},
+     if 
+    $$\frac{n}{\sqrt{p}}\|\mu_1-\mu_2\|^2=O(1),$$
+     then we have
+\begin{equation*}
+    \frac{T_3-\|\hat{\tilde{V}}^T(\mu_1-\mu_2)\|^2}{\sqrt{\sigma_n^2}}\xrightarrow{\mathcal{L}} N(0,1).
+\end{equation*}
+where
+$\sigma_n^2=\frac{2(p-r_1-r_2)}{n_1(n_1-1)}\sigma_1^4+\frac{2(p-r_1-r_2)}{n_2(n_2-1)}\sigma_2^4+\frac{4(p-r_1-r_2)}{n_1n_2}\sigma_1^2\sigma_2^2$.
+\end{theorem}
+\begin{remark}
+    Even if $\hat{\tilde{V}}_k\hat{\tilde{V}}_k^T$ is an consistent estimator of $\tilde{V}_k\tilde{V}_k^T$ for $k=1,2$, $\hat{\tilde{V}}\hat{\tilde{V}}^T$ may not be an consistent estimator of $\tilde{V}\tilde{V}^T$.
+    Nevertheless, the asymptotic normality still holds.
+    However, the centering term should be $\|\hat{\tilde{V}}^T(\mu_1-\mu_2)\|^2$ and can not be replaced by $\|\tilde{V}^T(\mu_1-\mu_2)\|^2$.
+\end{remark}
+
+ $\sigma_n^2$ can be estimated by ratio consistent estimators of $\sigma^2_k$ for $k=1,2$. Thus, if $n$ and $p$ are large and ${\sqrt{p}}/{n}$ is small, we reject when $T_3/\sqrt{\hat{\sigma}_n^2}>z_{1-\alpha}$. 
+ %If $n$ is small or $p$ is large compared with n, we use permutation method to determine critical value.
+
+
+
+

@@ -1,0 +1,137 @@
+
+\section{Theoretical results}
+
+In this section, we study the asymptotic behavior of the new test procedure.
+
+
+ We first give a result of the convergence rate of $\hat{\sigma}^2$.
+ In particular, it can be seen that $\hat{\sigma}^2$ is a consistent estimator of $\sigma^2$.   
+ Our proof relies on the Weyl's inequality.
+\begin{proposition}\label{varianceEstimation}
+    Under Assumptions~\ref{balance}-\ref{theModel2}, we have that%      $\hat{\sigma}^2$ is consistent.
+    $$
+    \hat{\sigma}^2=\sigma^2 + O_P\Big(\frac{\max (n,p)}{np}\Big).
+    $$
+\end{proposition}
+
+To derive the asymptotic normality of the new test statistic, we require the following relationship of $n$ and $p$.
+\begin{assumption}\label{pAndN}
+    Assume
+    $
+    {\sqrt{p}}/{n}\to 0.
+    $
+\end{assumption}
+
+ 
+
+
+\begin{theorem}\label{myPanpan}
+    Under Assumptions~\ref{balance}-\ref{pAndN},
+if the local alternative holds, that is,
+    $$\frac{n}{\sqrt{p}}\|\mu_1-\mu_2\|^2=O(1),$$
+then 
+\begin{equation*}
+        \frac{T_2-\|\tilde{V}^T(\mu_1-\mu_2)\|^2}{\sigma^2\sqrt{2\tau^2 p}}\xrightarrow{\mathcal{L}}N(0,1).
+\end{equation*}
+\end{theorem} 
+\begin{remark}
+The Assumption~\ref{pAndN} is a strong condition.
+However, it may not be able to be relaxed. In fact, the asymptotic normality of $\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2$, the major part of $T_2$, requires 
+\begin{equation}\label{eqREML}
+    \frac{\lambda_1\big(\big(\hat{\tilde{V}}^T \Sigma \hat{\tilde{V}}\big)^2\big)}{\mathrm{tr}\big(\big(\hat{\tilde{V}}^T \Sigma \hat{\tilde{V}}\big)^2\big)
+}\xrightarrow{P} 0.
+\end{equation}
+See Lemma~\ref{quadraticFormCLT} in appendix. And~\eqref{eqREML} is equivalent to Assumption~\ref{pAndN} by Lemma~\ref{conRateLemma} in appendix.
+\end{remark}
+
+
+
+
+%\begin{remark}  Compared with~\cite{2016arXiv160202491A}'s assumption (ix) which is equivalent to assuming $\frac{p^{2\beta-1}}{n_1+n_2}\to 0$ in model~\eqref{theModel}, our assumption $\frac{\sqrt{p}}{n_1+n_2}\to 0$ doesn't involved $\beta$.
+%And when $\beta\geq \frac{3}{4}$, our assumption is weaker than~\cite{2016arXiv160202491A}'s. Note that when $\beta=\frac{1}{2}$, $\frac{\sqrt{p}}{n_1+n_2}$ is a necessary condition to make $\hat{V}\hat{V}^T$ a consistent
+%estimator of $VV^T$ (see lemma 2 in appendix). So condition $\frac{\sqrt{p}}{n_1+n_2}$ is roughly the best we can do if the relationship between $p$ and $n$ doesn't involve $\beta$.
+%\end{remark}
+
+By Proposition~\ref{varianceEstimation}  and Theorem~\ref{myPanpan}, the power function of the new test can be obtained immediately.
+
+
+\begin{corollary}\label{testPowerh}
+    Under Assumptions~\ref{balance}-\ref{pAndN},
+    if we reject the null hypothesis when $Q$ is larger than $1-\alpha$ quantile of $N(0,1)$, then the asymptotic power function of the new test is
+    \begin{equation*}
+        \Phi\Big(-\Phi^{-1}(1-\alpha)+\frac{\|\tilde{V}(\mu_1-\mu_2)\|^2}{\sigma^2\sqrt{2\tau^2p}}\Big).
+    \end{equation*}
+\end{corollary}
+
+
+ Note that the power of $T_{CQ}$ is of the form
+\begin{equation*}
+    \Phi\Big(-\Phi^{-1}(1-\alpha)+\frac{\|\mu_1-\mu_2\|^2}{\sqrt{2\tau^2\mathrm{tr}\Sigma^2}}\Big).
+\end{equation*}
+ The relative efficiency of our test with respect to Chen's test is
+\begin{equation*}
+    \sqrt{\frac{\mathrm{tr}\Sigma^2}{(p-r)\sigma^4}}\frac{\|\tilde{V}(\mu_1-\mu_2)\|^2}{\|\mu_1-\mu_2\|^2}\sim p^{\beta-1/2}\frac{\|\tilde{V}(\mu_1-\mu_2)\|^2}{\|\mu_1-\mu_2\|^2},
+\end{equation*}
+which is large when $\beta>1/2$ and $\|\tilde{V}(\mu_1-\mu_2)\|/\|\mu_1-\mu_2\|$ is close to $1$.
+
+
+When Assumption~\ref{pAndN} doesn't met, the asymptotic normality are not valid.
+The next theorem  gives an asymptotic result in this case.
+\begin{theorem}
+    Under Assumptions~\ref{balance}-\ref{theModel2} and $p/n^2\to \infty$,
+if the local alternative holds, that is,
+    $$\|\mu_1-\mu_2\|^2....$$
+then 
+\begin{equation*}
+    \frac{T_2-\|\tilde{V}^T(\mu_1-\mu_2)\|^2}{...}
+\end{equation*}
+\end{theorem}
+However, this does not mean the new statistic can not be used.
+In fact, since the samples are exchangeable under null hypothesis, we can always use permutation method to determine the critical value.
+We will see from simulation results that the new test has good power behavior even in large $p$ small $n$ case.
+
+
+
+In practice, it may not be an easy task to check if the covariance matrices are spiked, especially in high dimension setting.
+When the spiked covariance model is not valid,
+some estimators in our test procedure make no sense.
+In particular, if $\hat{r}$ is estimated by~\eqref{estimateR}.
+the $\hat{r}$ is nothing but a random integer not greater than $R$ and $\hat{V}\hat{V}^T$ is just a random projection.
+Hence it is a natural question how the new test procedure behaves when the spiked covariance model breaks down.
+We study the asymptotic behavior of the new test procedure in two non-spiked setting.
+
+First we consider the case  when the eigenvalues of $\Sigma$ is bounded.
+%In many practical problems, the alternative is `dense', i.e., under $H_1$ the signals in $\mu_1-\mu_2$ spread out over a large number of co-ordinates. See~\cite{Tony2013}.
+Similar to bayesian models, we assume a normal prior distribution for $\mu_k$ to characterize `dense' alternative.
+%When the eigenvalues of $\Sigma$ is bounded, spike variance model is not valid.
+%In this case, the difference of our test statistic and~\cite{Chen2010A}'s is small.
+The next theorem shows that  the power of our new test is asymptotically the same as~\cite{Chen2010A}'s test in this case.
+
+
+\begin{theorem}\label{sameTheorem}
+   Assume $X_{ki}\sim N(\mu_k,\Sigma)$,  $i=1,\ldots,n_k$, $k=1,2$.
+    Suppose that Assumptions~\ref{balance} and~\ref{pAndN} holds, $0<c\leq\lambda_p(\Sigma)\leq\lambda_1(\Sigma)\leq C<\infty$ where $c$ and $C$ are constants, each element of $\mu_k$ is independently generated by $N(0,{(n_k\sqrt{p})}^{-1}\psi)$ for $k=1,2$, where $\psi$ is a constant and  $\hat{r}\leq R$ for a positive constant $R$.
+    Then we have
+    
+\begin{equation*}
+    \frac{T_2-\|\mu_1-\mu_2\|^2}{\sqrt{2\tau^2 \mathrm{tr}\Sigma^2}} \xrightarrow{\mathcal{L}} N(0,1).
+\end{equation*}
+\end{theorem}
+
+The second setting we consider is the model in Assumption~\ref{theModel} with $r=0$.
+In this case, the Assumption~\ref{pAndN} can be dropped and we don't need to assume a random $\mu_k$.
+
+\begin{theorem}\label{sameTheorem2}
+    Under Assumptions~\ref{balance}-\ref{theModel2} with factor number $r=0$, if
+    $$
+    \frac{n}{\sqrt{p}}\|\mu_1-\mu_2\|^2=O(1),
+    $$
+    and $\hat{r}\leq R$ for a positive constant $R$,
+    then
+    $$
+    \frac{T_2-\|\mu_1-\mu_2\|^2}{\sigma^2\sqrt{2\tau^2 p}}\xrightarrow{\mathcal{L}} N(0,1).
+    $$
+\end{theorem}
+These results show that the new test procedure is robust against the invalidity of spiked covariance model.
+
+

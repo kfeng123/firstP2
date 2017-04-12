@@ -1,0 +1,506 @@
+\documentclass[review]{elsarticle}
+ 
+\usepackage{lineno,hyperref}
+\modulolinenumbers[5]
+
+\journal{Journal of \LaTeX\ Templates}
+
+%%%%%%%%%%%%%%%%%%%%%%%
+%% Elsevier bibliography styles
+%%%%%%%%%%%%%%%%%%%%%%%
+%% To change the style, put a % in front of the second line of the current style and
+%% remove the % from the second line of the style you would like to use.
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Numbered
+%\bibliographystyle{model1-num-names}
+
+%% Numbered without titles
+%\bibliographystyle{model1a-num-names}
+
+%% Harvard
+%\bibliographystyle{model2-names.bst}\biboptions{authoryear}
+
+%% Vancouver numbered
+%\usepackage{numcompress}\bibliographystyle{model3-num-names}
+
+%% Vancouver name/year
+\usepackage{numcompress}\bibliographystyle{model4-names}\biboptions{authoryear}
+
+%% APA style
+%\bibliographystyle{model5-names}\biboptions{authoryear}
+
+%% AMA style
+%\usepackage{numcompress}\bibliographystyle{model6-num-names}
+
+%% `Elsevier LaTeX' style
+%\bibliographystyle{elsarticle-num}
+%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xeCJK}
+\usepackage{bm}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{booktabs}
+
+
+\DeclareMathOperator{\mytr}{tr}
+\DeclareMathOperator{\mydiag}{diag}
+\DeclareMathOperator{\myE}{E}
+\DeclareMathOperator{\myVar}{Var}
+
+
+\theoremstyle{plain}
+\newtheorem{theorem}{\quad\quad Theorem}
+\newtheorem{proposition}{\quad\quad Proposition}
+\newtheorem{corollary}{\quad\quad Corollary}
+\newtheorem{lemma}{\quad\quad Lemma}
+\newtheorem{example}{Example}
+\newtheorem{assumption}{\quad\quad Assumption}
+\newtheorem{condition}{Condition}
+
+\theoremstyle{definition}
+\newtheorem{remark}{\quad\quad Remark}
+\theoremstyle{remark}
+\begin{document}
+
+\begin{frontmatter}
+
+\title{High-dimensional two-sample test under spiked covariance}
+
+%% Group authors per affiliation:
+    \author[mymainaddress]{Rui Wang}
+    \author[mymainaddress,mysecondaryaddress]{Xingzhong Xu\corref{mycorrespondingauthor}}
+\cortext[mycorrespondingauthor]{Corresponding author}
+\ead{xuxz@bit.edu.cn}
+    \address[mymainaddress]{School of Mathematics and Statistics, Beijing Institute of Technology, Beijing 
+    100081,China}
+    \address[mysecondaryaddress]{Beijing Key Laboratory on MCAACI, Beijing Institute of Technology, Beijing 100081,China}
+%\fntext[myfootnote]{Since 1880.}
+
+%% or include affiliations in footnotes:
+%\author[mymainaddress,mysecondaryaddress]{Elsevier Inc}
+%\ead[url]{www.elsevier.com}
+
+
+
+\begin{abstract}
+    This paper considers testing the means of two $p$-variate normal samples in high dimensional setting.  The covariance matrices are assumed to be spiked, which often arises in practice. 
+    We propose a new test procedure through projection on the orthogonal complement of principal space.
+    The asymptotic normality of the new test statistic is proved and the power function of the test is given.
+    Theoretical and simulation results show that the new test outperforms existing methods substantially when the covariance matrices are spiked. Even when the covariance matrices are not spiked, the new test is acceptable.
+\end{abstract}
+
+\begin{keyword}
+    high dimension, mean test, orthogonal complement of principal space, spiked covariance
+\end{keyword}
+
+\end{frontmatter}
+
+%\linenumbers
+
+
+%\include{someLatex/introduction}
+\include{someLatex/model}
+%\include{someLatex/methodology}
+%\include{someLatex/theory}
+%\include{someLatex/unequalVariance}
+%\include{someLatex/simulation}
+%\include{someLatex/conclusion}
+\include{someLatex/PCAtheory}
+
+
+\section*{Appendix}
+
+%\begin{lemma}\label{lemma1}
+%    let $X$ be a $p$-dimensional random vector with distribution $N(0,\Sigma)$. Denote the spectral decomposition of $\Sigma$ by $\Sigma =\sum_{i=1}^p \lambda_i p_i p_i^T$ with $\lambda_1\geq \cdots \geq \lambda_p$. Then $X^T p_i p_i^T X$ is stochastically larger than $X^T p_j p_{j}^T X$ for $i<j$.
+%\end{lemma}
+%\begin{proof}[\textbf{Proof}]
+%    The lemma is established immediately once we note that $X^T p_i p_i^T X/\sqrt{\lambda_i}$ is distributed as $\chi^2$ distribution with freedom $1$.
+%\end{proof}
+
+\begin{lemma}[Weyl's inequality]
+Let $H$ and $P$ be two symmetric matrices and $M=H+P$. If $j+k-n\geq i\geq r+s-1$, we have
+\begin{equation*}
+\lambda_j(H)+\lambda_k(P)\leq \lambda_i(M) \leq \lambda_r(H)+\lambda_s(P).
+\end{equation*}
+\end{lemma}
+\begin{corollary}\label{WeylCor}
+    Let $H$ and $P$ be two symmetric matrices and $M=H+P$. If $\mathrm{rank}(P)< k$, then
+    \begin{equation*}
+        \lambda_k(M)\leq \lambda_1(H).
+    \end{equation*}
+\end{corollary}
+
+
+\begin{lemma}[Convergence rate of principal space estimation]\label{conRateLemma}
+    Under the Assumption~\ref{balance}-\ref{theModel2}, we have
+\begin{equation*}
+E\|\hat{V}\hat{V}^T-VV^T\|^2_F =O(\frac{p}{p^{\beta}n}).
+\end{equation*}
+\end{lemma}
+
+
+\begin{proof}[\textbf{Proof}]
+    Theorem 5 of~\cite{Cai2012Sparse} asserts that sample principal subspace $\hat{V}\hat{V}^T$ is a minimax rate estimator of $VV^T$, namely, it reaches the minimax convergence rate
+    \begin{equation}\label{xiaopianpian}
+         E\|\hat{V}\hat{V}^T-VV^T\|^2_F\asymp r\wedge (p-r)\wedge \frac{r(p-r)}{(n_1+n_2-2)h(\lambda)}
+    \end{equation}
+    as long as the right hand side tends to $0$. Here $h(\lambda)=\frac{\lambda^2}{\lambda+1}$. In model of Assumption~\ref{theModel},  $r$ is fixed, $\lambda=cp^\beta$.
+    It's obvious that the right hand side of~\eqref{xiaopianpian} is of order ${p^{1-\beta}}/{n}$.
+    We note that it is assumed $\beta\geq \frac{1}{2}$ in Assumption~\ref{orderOfBeta}, together with ${\sqrt{p}}/{n}\to 0$ we have
+    ${p^{1-\beta}}/{n}\to 0$. Hence
+    $\hat{V}\hat{V}^T$ reaches the convergence rate.
+
+\end{proof}
+\begin{lemma}[Bai-Yin's law]\label{baiyin}
+    Suppose $B_n=\frac{1}{q} Z Z^T$ where $Z$ is $p\times q$ random matrix composed of i.i.d.\ random variables with zero mean, unit variance and finite fourth moment.
+    As $q\to \infty$ and $\frac{p}{q}\to c\in [0,\infty)$, the largest and smallest non-zero eigenvalues of $B_n$ converge almost surely to ${(1+\sqrt{c})}^2$ and $(1-\sqrt{c})^2$, respectively.
+\end{lemma}
+\begin{remark}
+    Lemma~\ref{baiyin} is known as the Bai-Yin's law (\cite{bai1993limit}). As in Remark $1$ of~\cite{bai1993limit}, the smallest non-zero eigenvalue is the $p-q+1$ smallest eigenvalue of $B$ for $c>1$.
+\end{remark}
+\begin{corollary}\label{maxEigen}
+    Suppose that $W_n$ is a $p \times p$ matrix distributed as $\mathrm{Wishart}_p(n,I_{p})$. Then as $n\to \infty$,
+    $$
+        \lambda_1(W_n)=O_P(\max(n,p)).
+    $$
+\end{corollary}
+\begin{proof}[\textbf{Proof}]
+    Since $[0,+\infty]$ is compact, for every subsequance $\{n_{k}\}$ of $\{n\}$, there is a further subsequance $\{n_{k_l}\}$ along which $p/n\to c\in [0,+\infty]$.
+
+    If $c\in [0,+\infty)$, by Lemma~\ref{baiyin}, we have that
+    $$
+    \frac{\lambda_1(W_{n_{k_l}})}{n_{k_l}}\xrightarrow{P}{(1+c)}^2.
+    $$
+    Hence the conclusion holds along this subsequance. If $c=+\infty$, suppose $W_n=Z_n Z_n^T$ where $Z_n$ is a $p\times n$ matrix with all elements distributed as $N(0,1)$. Then
+    $$
+    \frac{\lambda_1(W_{n_{k_l}})}{p}=\frac{Z_{n_{k_l}}^T Z_{n_{k_l}}}{p}\xrightarrow{P} 1,
+    $$
+    by Lemma~\ref{baiyin}, which proves the conclusion along the subsequance. Now the conclusion holds by a standard subsequance argument.
+\end{proof}
+
+
+\begin{lemma}\label{quadraticFormCLT}
+    Suppose $X_{n}$ is a $k_n$ dimensional standard normal random vector and $A_n$ is a $k_n\times k_n$ symmetric matrix. Then a necessary and sufficient condition for
+    \begin{equation}\label{quadratic}
+        \frac{X_n^T A_n X_n-\mathrm{E}X_n^T A_n X_n}{{[\mathrm{Var}(X_n^T A_n X_n)]}^{1/2}}\xrightarrow{\mathcal{L}}N(0,1)
+    \end{equation}
+    is that
+    \begin{equation}\label{quadraticEigen}
+        \frac{\lambda_{\max}(A_n^2)}{\mathrm{tr}(A_n^2)}\to 0.
+    \end{equation}
+\end{lemma}
+\begin{remark}
+This lemma is from the Example 5.1 of~\cite{jiang1996reml}. Here we give a proof by characteristic function.
+\end{remark}
+\begin{proof}
+    Let $\lambda_1(A_n)\geq\cdots\geq \lambda_{k_n}(A_n)$ be the eigenvalues of $A_n$, then 
+    \begin{equation}
+        \frac{X_n^T A_n X_n-\mathrm{E}X_n^T A_n X_n}{{[\mathrm{Var}(X_n^T A_n X_n)]}^{1/2}}=\sum_{i=1}^{k_n}\frac{\lambda_i(A_n)}{{\big[2\mathrm{tr}(A_n^2)\big]}^{1/2}}(Z_{ni}^2-1),
+    \end{equation}
+    where $Z_{ni}$'s ($i=1,\ldots,k_n$) are independent standard normal random variables.
+
+    If~\ref{quadraticEigen} holds, then
+    \begin{equation*}
+        \begin{aligned}
+            &\sum_{i=1}^{k_n}\mathrm{E}\Big[\frac{\lambda_i^2(A_n)}{2\mathrm{tr}(A_n^2)}{(Z_{ni}^2-1)}^2\Big\{\frac{\lambda_i^2(A_n)}{2\mathrm{tr}(A_n^2)}{(Z_{ni}^2-1)}^2\geq \epsilon\Big\}\Big]\\
+            \leq&\sum_{i=1}^{k_n}
+            \frac{\lambda_i^2(A_n)}{2\mathrm{tr}(A_n^2)}
+            \mathrm{E}\Big[{(Z_{n1}^2-1)}^2\Big\{\frac{\lambda_{\max}(A_n^2)}{2\mathrm{tr}(A_n^2)}{(Z_{n1}^2-1)}^2\geq \epsilon\Big\}\Big]\\
+            =&
+            \frac{1}{2}\mathrm{E}\Big[{(Z_{n1}^2-1)}^2\Big\{\frac{\lambda_{\max}(A_n^2)}{2\mathrm{tr}(A_n^2)}{(Z_{n1}^2-1)}^2\geq \epsilon\Big\}\Big]\to 0.
+        \end{aligned}
+    \end{equation*}
+    Hence~\ref{quadratic} follows by Lindeberg's central limit theorem.
+
+    Conversely, if~\ref{quadratic} holds, we will prove that there is a subsequence of $\{n\}$ along which~\ref{quadraticEigen} holds. Then~\ref{quadraticEigen} will hold by a standard contradiction argument. 
+
+    Denote $c_{ni}=\lambda_i(A_n)/{\big[2\mathrm{tr}(A_n^2)\big]}^{1/2}$ ($i=1,\ldots,k_n$), we have $c_{ni}\in[-\sqrt{2}/2,\sqrt{2}/2]$.
+    Since~\ref{quadratic} holds, the characteristic function of
+        $
+        \sum_{i=1}^{k_n}c_{ni}(Z_{ni}^2-1)
+    $
+    converges to $\exp(-t^2/2)$ for every $t$. For $t\in (-1,1)$, we have
+    \begin{equation*}
+        \begin{aligned}
+            &\log \mathrm{E}\exp{\big(it \sum_{j=1}^{k_n}c_{nj}(Z_{nj}^2-1)\big)}
+            =
+            -i(\sum_{j=1}^{k_n}c_{nj})t-
+            \frac{1}{2}\sum_{j=1}^{k_n}\log(1-i2c_{nj}t)\\
+            =&
+            -i(\sum_{j=1}^{k_n}c_{nj})t+
+            \frac{1}{2}\sum_{j=1}^{k_n}\sum_{l=1}^{+\infty}\frac{1}{l}{(i2c_{nj}t)}^l
+            =
+            -i(\sum_{j=1}^{k_n}c_{nj})t+
+            \frac{1}{2}\sum_{l=1}^{+\infty}\Big[\sum_{j=1}^{k_n}{(c_{nj})}^l\Big]\frac{1}{l}{(i2t)}^l\\
+            =&-\frac{1}{2}t^2+
+            \frac{1}{2}\sum_{l=3}^{+\infty}\Big[\sum_{j=1}^{k_n}{(c_{nj})}^l\Big]\frac{1}{l}{(i2t)}^l.
+        \end{aligned}
+    \end{equation*}
+    Denote $b_{nl}=\sum_{j=1}^{k_n}{(c_{nj})}^l$, $n=1,2,\cdots$ and $l=3,4,\cdots$. For $l\geq 3$, $\big|\sum_{j=1}^{k_n}{(c_{nj})}^l\big|\leq \big|\sum_{j=1}^{k_n}{(c_{nj})}^2\big|=1/2$.
+    By Helly's selection theorem, there's a subsequence of $\{n\}$ along which $\lim_{n\to \infty}b_{nl}=b_l$ exists for every $l$.
+    Apply dominated convergence theorem to this subsequence we have
+            $\log \mathrm{E}\exp{\big(it \sum_{j=1}^{k_n}c_{nj}(Z_{nj}^2-1)\big)}\to
+            -\frac{1}{2}t^2+
+            \frac{1}{2}\sum_{l=3}^{+\infty}b_l\frac{1}{l}{(i2t)}^l$ for $t\in(-1/2,1/2)$.
+            By the property of power series, we have $b_l=0$ for $l\geq 3$. Then~\ref{quadraticEigen} follows by noting that $b_{n4}\geq \max_j{(c_{nj})}^4$.
+\end{proof}
+
+
+The rest of the Appendix is devoted to the proof of propositions and theorems in the paper.
+\begin{proof}[\textbf{Proof Of Proposition~\ref{oracleTheorem}}]
+Since $V$ and $\tilde{V}$ are orthogonal, we have
+    $$\tilde{V}^T X_{ki}=\tilde{V}^T\mu_i+ \tilde{V}^T Z_{ki}\sim N(\tilde{V}^T\mu_k,\sigma^2 I_{p-r})\quad \textrm{$k=1,2$ and $i=1,\ldots,n_k$}.$$
+    
+    %By Lemma~\ref{quadraticFormCLT},
+
+    Let $\bar{Z}_1$ and $\bar{Z}_2$ be the sample mean of $\{Z_{1i}\}$ and $\{Z_{2i}\}$ respectively. Then
+    \begin{equation*}
+        \begin{aligned}
+            &\|\tilde{V}^T(\bar{X}_1-\bar{X}_2)\|^2
+            =\|\tilde{V}^T(\mu_1-\mu_2)+\tilde{V}^T(\bar{Z}_1-\bar{Z}_2)\|^2\\
+            =&\|\tilde{V}^T(\mu_1-\mu_2)\|^2+\|\tilde{V}^T(\bar{Z}_1-\bar{Z}_2)\|^2+
+            2{(\mu_1-\mu_2)}^T\tilde{V}\tilde{V}^T(\bar{Z}_1-\bar{Z}_2).
+        \end{aligned}
+    \end{equation*}
+But
+    \begin{equation*}
+        \begin{aligned}
+            &2{(\mu_1-\mu_2)}^T\tilde{V}\tilde{V}^T(\bar{Z}_1-\bar{Z}_2)\sim N(0,4\sigma^2 \tau \|\tilde{V}^T(\mu_1-\mu_2)\|^2)\\
+            =& O_P(\sqrt{\tau}\|\tilde{V}^T(\mu_1-\mu_2)\| )=o_P(\frac{\sqrt{p}}{n}).
+        \end{aligned}
+    \end{equation*}
+    Then
+    \begin{equation}\label{prop1eq1}
+        \begin{aligned}
+            &\|\tilde{V}^T(\bar{X}_1-\bar{X}_2)\|^2
+            =\|\tilde{V}^T(\mu_1-\mu_2)\|^2+\|\tilde{V}^T(\bar{Z}_1-\bar{Z}_2)\|^2+
+            o_P(\frac{\sqrt{p}}{n}).
+        \end{aligned}
+    \end{equation}
+    Note that
+    $
+    \frac{1}{n_i} \tilde{V}^T S_i \tilde{V}\sim
+    \frac{\sigma^2}{n_i(n_i-1)}Wishart_{p-r}(n_i-1,I_{p-r})
+    $, $i=1,2$.
+    Then 
+    \begin{equation*}
+        \begin{aligned}
+            &\frac{1}{n_i} \mathrm{tr}(\tilde{V}^T S_i \tilde{V})\sim \frac{\sigma^2}{n_i(n_i-1)}\chi^2_{(p-r)(n_i-1)}\\
+            =&
+            \sigma^2\frac{p-r}{n_i}(1+O_P(\frac{1}{\sqrt{(p-r)(n_i-1)}})),
+        \end{aligned}
+    \end{equation*}
+    where the second line holds by central limit theorem. It follows that
+    \begin{equation}\label{prop1eq2}
+        \begin{aligned}
+            &\frac{1}{n_1} \mathrm{tr}(\tilde{V}^T S_1 \tilde{V})+
+            \frac{1}{n_2} \mathrm{tr}(\tilde{V}^T S_2 \tilde{V})=\sigma^2 \tau (p-r)+o_P(\frac{\sqrt{p}}{n}).
+        \end{aligned}
+    \end{equation}
+
+    By~\eqref{prop1eq1} and~\eqref{prop1eq2}, we have
+    \begin{equation}
+        \begin{aligned}
+            \frac{T_1-\|\tilde{V}^T(\mu_1-\mu_2)\|^2}{\sigma^2\sqrt{2\tau^2 p}}
+            =
+            \frac{\|\tilde{V}^T(\bar{Z}_1-\bar{Z}_2)\|^2-
+                \sigma^2 \tau (p-r)}{\sigma^2\sqrt{2\tau^2 p}}
+                +o_P(1).
+        \end{aligned}
+    \end{equation}
+Note that
+$\|\tilde{V}^T(\bar{Z}_1-\bar{Z}_2)\|^2\sim \sigma^2\tau\chi^2_{p-r}$.
+The proposition follows by central limit theorem.
+\end{proof}
+
+
+\input{someLatex/varianceEstimation.tex}
+
+
+
+% proof of space estimation theorem
+\input{someLatex/spaceEstimation.tex}
+
+% same power with Chen's method
+\begin{proof}[\textbf{Proof Of Theorem~\ref{sameTheorem}}]
+    By assumption, $\hat{r}\leq R$ for some constant $R$.
+    Similar to the proof of Proposition~\ref{varianceEstimation}, in the current context we have that
+    $\mathrm{tr}(\hat{\tilde{V}}_i S_i \hat{\tilde{V}}_i)=\mathrm{tr}\Sigma+P_P(\frac{\max(n,p)}{n})$, $i=1,2$. It follows that
+    $$
+    \frac{T_2-\|\mu_1-\mu_2\|^2}{\sqrt{2\tau^2 \mathrm{tr}\Sigma^2}}
+    =
+    \frac{\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2-\|\mu_1-\mu_2\|^2-\tau \mathrm{tr}\Sigma}{\sqrt{2\tau^2 \mathrm{tr}\Sigma^2}}+o_P(1).
+    $$
+ Since $\bar{X}_i|\mu_i\sim N(\mu_i,\frac{1}{n_i}\Sigma)$ and
+    $\mu_i\sim N(0,\frac{\psi}{n_i\sqrt{p}}I_p)$,
+we have $\bar{X}_i\sim N(0,\frac{1}{n_i}(\Sigma+\frac{1}{\sqrt{p}}\psi I_p))$, $i=1,2$.
+    Hence we have that $\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)|S\sim N(0,\tau\hat{\tilde{V}}^T(\Sigma+\frac{1}{\sqrt{p}}\psi I_p)\hat{\tilde{V}})$ by the independence of $S$ and $(\mu_1,\mu_2,\bar{X}_1,\bar{X}_2)$.
+    Note that 
+    $$
+    c+\frac{1}{\sqrt{p}}\psi
+    \leq
+    \lambda_{\min}(\hat{\tilde{V}}^T(\Sigma+\frac{1}{\sqrt{p}}\psi I_p)\hat{\tilde{V}})
+    \leq
+    \lambda_{\max}(\hat{\tilde{V}}^T(\Sigma+\frac{1}{\sqrt{p}}\psi I_p)\hat{\tilde{V}})
+    \leq C+\frac{1}{\sqrt{p}}\psi.
+    $$
+    Then by Lemma~\ref{quadraticFormCLT},
+    \begin{equation}\label{sameTheorem:5}
+    \frac{\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2-\tau\mathrm{tr}(\hat{\tilde{V}}^T(\Sigma+\frac{1}{\sqrt{p}}\psi I_p)\hat{\tilde{V}})}{\sqrt{2\tau^2\mathrm{tr}(\hat{\tilde{V}}^T(\Sigma+\frac{1}{\sqrt{p}}\psi I_p)\hat{\tilde{V}})^2}}\xrightarrow{\mathcal{L}}N(0,1).
+    \end{equation}
+    It can be easily shown that
+    \begin{equation}\label{sameTheorem:4}
+    \frac{\mathrm{tr}(\hat{\tilde{V}}^T(\Sigma+\frac{1}{\sqrt{p}}\psi I_p)\hat{\tilde{V}})^2}{\mathrm{tr}(\hat{\tilde{V}}^T\Sigma\hat{\tilde{V}})^2}\xrightarrow{P}1.
+\end{equation}
+    Next we will show that
+    \begin{equation}\label{sameTheorem:3}
+    \frac{\mathrm{tr}(\hat{\tilde{V}}^T\Sigma\hat{\tilde{V}})^2}{\mathrm{tr}\Sigma^2
+    }\xrightarrow{P}1.
+    \end{equation}
+    In fact, 
+for $i=1,\ldots,p$ we have
+    \begin{equation}\label{sameTheorem:1}
+    \lambda_i (\hat{\tilde{V}}^T \Sigma \hat{\tilde{V}})
+    =
+    \lambda_i (\Sigma^{1/2} \hat{\tilde{V}}\hat{\tilde{V}}^T \Sigma^{1/2})
+    \leq
+    \lambda_i (\Sigma).
+    \end{equation}
+    On the other hand, for $i=1,\ldots,p-\hat{r}$ we have that
+    \begin{equation}\label{sameTheorem:2}
+    \lambda_i (\hat{\tilde{V}}^T \Sigma \hat{\tilde{V}})
+    =
+    \lambda_i (\Sigma^{1/2} (I_p-\hat{V}\hat{V}^T )\Sigma^{1/2})
+    =
+    \lambda_i (\Sigma-\Sigma^{1/2}\hat{V}\hat{V}^T\Sigma^{1/2})
+    \geq
+    \lambda_{i+\hat{r}} (\Sigma),
+    \end{equation}
+    where the last inequality holds by Weyl's inequality and the fact that the rank of $\Sigma^{1/2}\hat{V}\hat{V}^T\Sigma^{1/2}$ is at most $\hat{r}$.
+    By~\eqref{sameTheorem:1} and~\eqref{sameTheorem:2},
+$$
+    \sum_{i=\hat{r}+1}^p \lambda_{i}^2(\Sigma)\leq \mathrm{tr}(\hat{\tilde{V}}^T\Sigma\hat{\tilde{V}})^2\leq \mathrm{tr}\Sigma^2.
+    $$
+    Then
+    $
+     |\mathrm{tr}(\hat{\tilde{V}}^T\Sigma\hat{\tilde{V}})^2- \mathrm{tr}\Sigma^2|\leq \sum_{i=1}^{\hat{r}} \lambda_{i}^2(\Sigma)\leq RC^2
+    $.
+    Hence~\eqref{sameTheorem:3} holds.
+    By~\eqref{sameTheorem:5},~\eqref{sameTheorem:4},~\eqref{sameTheorem:3} and Slutsky's theorem, 
+    \begin{equation*}
+        \frac{\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2-\tau\mathrm{tr}(\hat{\tilde{V}}^T\Sigma\hat{\tilde{V}})-\frac{p-\hat{r}}{\sqrt{p}}\tau \psi }{\sqrt{2\tau^2\mathrm{tr}\Sigma^2}}\xrightarrow{\mathcal{L}}N(0,1).
+    \end{equation*}
+    Note that
+    \begin{equation*}
+        \begin{aligned}
+            &\frac{\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2-\|\mu_1-\mu_2\|^2-\tau \mathrm{tr}\Sigma^2}{\sqrt{2\tau^2 \mathrm{tr}\Sigma}}\\
+            =&
+        \frac{\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2-\tau\mathrm{tr}(\hat{\tilde{V}}^T\Sigma\hat{\tilde{V}})-\frac{p-\hat{r}}{\sqrt{p}}\tau \psi }{\sqrt{2\tau^2\mathrm{tr}\Sigma^2}}
+           + 
+            \frac{\frac{p-\hat{r}}{\sqrt{p}}\psi-\frac{1}{\tau}\|\mu_1-\mu_2\|^2}{\sqrt{2\mathrm{tr}\Sigma^2}}
+            +
+            \frac{\mathrm{tr}(\hat{\tilde{V}}\Sigma\hat{\tilde{V}})-\mathrm{tr}\Sigma^2}{\sqrt{2\mathrm{tr}\Sigma}}.
+        \end{aligned}
+    \end{equation*}
+We only need to show the last two terms are negligible.
+But $\frac{1}{\tau}\|\mu_1-\mu_2\|^2\sim \frac{\psi}{\sqrt{p}}\chi^2_p=\sqrt{p}\psi+O_P(1)$ by central limit theorem, then
+$$
+            \frac{\frac{p-\hat{r}}{\sqrt{p}}\psi-\frac{1}{\tau}\|\mu_1-\mu_2\|^2}{\sqrt{2\mathrm{tr}\Sigma^2}}=o_P(1).
+$$
+And 
+            $$
+            \frac{\mathrm{tr}(\hat{\tilde{V}}\Sigma\hat{\tilde{V}})-\mathrm{tr}\Sigma^2}{\sqrt{2\mathrm{tr}\Sigma}}=o_P(1)
+            $$
+            by~\eqref{sameTheorem:1} and~\eqref{sameTheorem:2}. The proof is completed.
+
+
+
+
+\end{proof}
+\begin{proof}[\textbf{Proof Of Theorem~\ref{sameTheorem2}}]
+    Since $r=0$, $X_{ki}=\mu_k+Z_{ki}$, $i=1,\ldots,n_k$ and $k=1,2$.
+    As in the proof of Theorem~\ref{sameTheorem}, we only need to prove
+    $$
+    \frac{\|\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})+\hat{\tilde{V}}^T(\mu_1-\mu_2)\|^2-\|\mu_1-\mu_2\|^2-\tau p \sigma^2}{\sigma^2\sqrt{2\tau^2 p}}\xrightarrow{\mathcal{L}}N(0,1).
+    $$
+    Independent of data, generate a $p\times p$ random orthogonal matrix with Haar invariant distribution. It can be seen that
+    $
+    \big(O(\bar{Z}_1-\bar{Z}_2), OSO^T\big)\sim
+    \big((\bar{Z}_1-\bar{Z}_2), S\big)
+    $ and are independent of $O$.
+    But the eigenvectors of $OSO^T$ are $(O\hat{V},O\hat{\tilde{V}})$, thus
+    $
+    \big(O(\bar{Z}_1-\bar{Z}_2), O\hat{\tilde{V}}\big)\sim
+    \big((\bar{Z}_1-\bar{Z}_2), \hat{\tilde{V}}\big)
+    $.
+    It follows that
+    \begin{equation*}
+    \begin{aligned}
+\|\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})+\hat{\tilde{V}}^T(\mu_1-\mu_2)\|^2
+        &=
+    \|(O\hat{\tilde{V}})^T O(\bar{Z_1}-\bar{Z_2})+(O\hat{\tilde{V}})^T O(\mu_1-\mu_2)\|^2\\
+        &\sim
+\|\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})+\hat{\tilde{V}}^T O(\mu_1-\mu_2)\|^2.
+\end{aligned}
+\end{equation*}
+    Note that $O(\mu_1-\mu_2)/\|\mu_1-\mu_2\|$ is uniformly distributed on the unit ball in $\mathbb{R}^p$. Independent of data and $O$, generate a random variable $R>0$ with $R^2\sim\chi^2_p$. Then 
+    $$
+    \xi \overset{def}{=} R \frac{O(\mu_1-\mu_2)}{\|\mu_1-\mu_2\|}\sim N_p(0_p,I_p).
+    $$
+Now we have
+    \begin{equation}\label{hTheorem:4}
+\begin{aligned}
+    &\|\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})+\hat{\tilde{V}}^T O(\mu_1-\mu_2)\|^2\\
+    =&
+    \|\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})\|^2+\frac{\|\hat{\tilde{V}}^T\xi\|^2}{R^2}\|\mu_1-\mu_2\|^2+\frac{\|\mu_1-\mu_2\|}{R}\xi^T\hat{\tilde{V}}\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2}).
+\end{aligned}
+\end{equation}
+    Since $\hat{\tilde{V}}^T(\bar{Z}_1-\bar{Z}_2)|\hat{\tilde{V}}\sim N_{p-\hat{r}}(0_{p-\hat{r}},\tau\sigma^2 I_{p-\hat{r}})$, the asymptotic normality of the first term of~\eqref{hTheorem:4} follows by central limit theorem:
+    \begin{equation}\label{hTheorem:1}
+    \frac{\|\hat{\tilde{V}}^T(\bar{Z}_1-\bar{Z}_2)\|^2-\tau(p-\hat{r})\sigma^2}{\sigma^2\sqrt{2\tau^2(p-\hat{r})}}\xrightarrow{\mathcal{L}}N(0,1).
+    \end{equation}
+    By the fact that $\hat{\tilde{V}}^T\xi|\hat{\tilde{V}}\sim N_{p-\hat{r}}(0_{p-\hat{r}},I_{p-\hat{r}})$ and central limit theorem, we have
+    $$\|\hat{\tilde{V}}^T\xi\|^2=(p-\hat{r})(1+O_P(\frac{1}{\sqrt{p-\hat{r}}}))=p(1+O_P(\frac{1}{\sqrt{p}})).$$
+    Also by central limit theorem, $R^2=p(1+O_P(\frac{1}{\sqrt{p}}))$.
+    Thus for the second term of~\eqref{hTheorem:4}, we have
+    \begin{equation}\label{hTheorem:2}
+    \frac{\|\hat{\tilde{V}}^T\xi\|^2}{R^2}\|\mu_1-\mu_2\|^2=\|\mu_1-\mu_2\|^2+O_P(\frac{1}{\sqrt{p}})\|\mu_1-\mu_2\|^2
+        =\|\mu_1-\mu_2\|^2+o_P(\sigma^2\sqrt{2\tau^2 p}).
+    \end{equation}
+    Now we deal wih the second term of~\eqref{hTheorem:4}.
+    Note that $\xi^T\hat{\tilde{V}}\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})\big|\big(\hat{\tilde{V}},(\bar{Z}_1-\bar{Z}_2)\big)\sim N(0,\|\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})\|^2)$, which implies that
+    $$
+    \xi^T\hat{\tilde{V}}\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})
+    =O_P(1)\|\hat{\tilde{V}}^T(\bar{Z}_1-\bar{Z}_2)\|=O_P(\sqrt{\tau p}).
+    $$
+    It follows that
+    \begin{equation}\label{hTheorem:3}
+    \frac{\|\mu_1-\mu_2\|}{R}\xi^T\hat{\tilde{V}}\hat{\tilde{V}}^T(\bar{Z_1}-\bar{Z_2})=O_P(\sqrt{\tau})\|\mu_1-\mu_2\|
+        =o_P(\sigma^2\sqrt{2\tau^2 p}).
+    \end{equation}
+    By~\eqref{hTheorem:4},~\eqref{hTheorem:1},~\eqref{hTheorem:2},~\eqref{hTheorem:3} and Slutsky's theorem, we have the conclusion
+\begin{equation*}
+    \begin{aligned}
+        \frac{\|\hat{\tilde{V}}^T (\bar{Z}_1-\bar{Z}_2)+\hat{\tilde{V}}^T O(\mu_1-\mu_2)\|^2-\|\mu_1-\mu_2\|^2-\tau p \sigma^2}{\sigma^2\sqrt{2\tau^2 p}} \xrightarrow{\mathcal{L}}N(0,1).
+    \end{aligned}
+\end{equation*}
+
+\end{proof}
+
+
+\input{someLatex/theOne.tex}
+
+
+\section*{Acknowledgements}
+This work was supported by the National Natural Science Foundation of China under Grant No. 11471035, 11471030.
+
+
+\section*{References}
+
+\bibliography{mybibfile}
+
+\end{document}

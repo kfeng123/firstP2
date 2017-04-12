@@ -1,0 +1,34 @@
+\begin{proof}[\textbf{Proof Of Theorem~\ref{myXiaopanpan}}]
+    The method of Theorem~\ref{myPanpan}'s proof can still work here with some modifications.
+    The term $P_3$ in THeorem~\ref{myPanpan}'s proof disappears in the current circumstance.
+    The other two terms can be treated as before if we can show that
+    $$
+    \lambda_1(\hat{\tilde{V}}^T \Sigma_k \hat{\tilde{V}}) =O_P(\frac{p}{n})\quad \textrm{k=1,2.}
+    $$
+    In fact,
+    $$
+    \lambda_1(\hat{\tilde{V}}^T \Sigma_k \hat{\tilde{V}})
+    =
+    \lambda_1(\hat{\tilde{V}}^T V_k D^2_k V_k^T \hat{\tilde{V}}) + \sigma^2
+    \leq
+    \kappa p^{\beta}\lambda_1(\hat{\tilde{V}}^T V_k V_k^T \hat{\tilde{V}}) +\sigma^2.
+    $$
+    But
+    $$
+    \lambda_1(\hat{\tilde{V}}^T V_k V_k^T \hat{\tilde{V}})
+    =
+    \lambda_1( V_k^T(I_p- \hat{V}\hat{V}^T) V_k)
+    \leq
+    \lambda_1( V_k^T(I_p- \hat{V}_k\hat{V}_k^T) V_k).
+    $$
+    The last inequality holds since $\hat{V}\hat{V}^T$ is the projection on the sum space of $\hat{V}_1\hat{V}_1^T$ and $\hat{V}_2\hat{V}_2^T$ and hence $\hat{V}\hat{V}^T\geq \hat{V}_1\hat{V}_1^T$.
+    Thus,
+    $$
+    \lambda_1(\hat{\tilde{V}}^T V_k V_k^T \hat{\tilde{V}})
+    \leq \frac{1}{2}\|V_k V_k^T - \hat{V}_k\hat{V}_k^T\|^2_F=O_P(\frac{p}{np^{\beta}}).
+    $$
+    Therefore,
+    $
+    \lambda_1(\hat{\tilde{V}}^T \Sigma_k \hat{\tilde{V}})
+    =O_P(\frac{p}{n})$.
+\end{proof}
