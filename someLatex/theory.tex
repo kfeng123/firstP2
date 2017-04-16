@@ -1,48 +1,450 @@
 
 \section{Theoretical results}
 
-In this section, we study the asymptotic behavior of the new test procedure.
+In this section, we study the behavior of $T_{LRT}$.
 
+Although $T_{LRT}$ is derived under~\eqref{andersonAssumption}, we study the behavior of $T_{LRT}$ in a more general setting.
 
- We first give a result of the convergence rate of $\hat{\sigma}^2$.
- In particular, it can be seen that $\hat{\sigma}^2$ is a consistent estimator of $\sigma^2$.   
- Our proof relies on the Weyl's inequality.
-\begin{proposition}\label{varianceEstimation}
-    Under Assumptions~\ref{balance}-\ref{theModel2}, we have that%      $\hat{\sigma}^2$ is consistent.
-    $$
-    \hat{\sigma}^2=\sigma^2 + O_P\Big(\frac{\max (n,p)}{np}\Big).
-    $$
-\end{proposition}
-
-To derive the asymptotic normality of the new test statistic, we require the following relationship of $n$ and $p$.
-\begin{assumption}\label{pAndN}
-    Assume
-    $
-    {\sqrt{p}}/{n}\to 0.
-    $
+\begin{assumption}\label{newDataAssumption}
+    Suppose $Z_{ki}$'s are i.i.d. random vectors with common distribution $N_p(0,I_p)$, $i=1,\ldots,n_k$, $k=1,2$.
+    Let $X_{ki}=U_k\Lambda_k^{1/2}Z_{ki}$, where $\Lambda_k=\mydiag(\lambda_1,\ldots,\lambda_p)$ with $\lambda_{k1}\geq \cdots \geq \lambda_{kp}$ and $U_k$ is a $p\times p$ orthgonal matrix, $i=1,\ldots,n_k$, $k=1,2$.
+    Suppose $c\leq \lambda_{kp} \leq \lambda_{k,r_k+1}\leq C$, where $c>0$ and $C>0$ are absolute constants.
 \end{assumption}
+    Let $V_k$ and $\tilde{V}_k$ be the first $r_k$ columns and last $p-r_k$ columns of $U_k$ respectively, $k=1,2$.
+    Let $\Lambda_{k,(1)}=\mydiag(\lambda_{k1},\ldots,\lambda_{kr_k})$ and $\Lambda_{k,(2)}=\mydiag(\lambda_{k,r+1},\ldots,\lambda_{kp})$, $k=1,2$.
+
+Write
+$$
+T_{LRT}=\frac{1}{\tau}\sum_{i=1}^r \hat{\lambda}_i^{-1}\big(\hat{u}_i^T(\bar{X}_1-\bar{X}_2)\big)^2
++\frac{1}{\tau\hat{\sigma}^{2}} \|\hat{\tilde{V}}^T (\bar{X}_1-\bar{X}_2)\|^2
+\overset{def}{=}T_1 + \hat{\sigma}^{-2}T_2.
+$$
+The randomness of $T_{LRT}$ is mainly due to $T_2$.
+$T_1$ can be regard as a power enhancement term, see~\cite{Fan2015Power}.
+Hence we deal with $T_1$ and $T_2$ separately.
+The following theorem gives the asymptotic and nonasymptotic results for $T_2$.
+\begin{theorem}\label{xxxTheorem}
+    Suppose the null hypothesis holds.
+    Let $r$ be fixed as $n,p$ vary.
+    Denote by $Q(1-\alpha)$ the $1-\alpha$ quantile of $T_2-(p-r)\hat{\sigma}^2$.
+    Then
+    \begin{enumerate}[(a)]
+        \item
+            \begin{equation*}
+    Q(1-\alpha)\lesssim 
+        \sqrt{p}+\frac{p}{n}+\frac{\lambda_1\max(p,n)}{\max(n\lambda_r,\max(p,n))}.
+            \end{equation*}
+        %\item
+            %If $p/n\to \infty$, $p/(n\lambda_1)\to 0$ and ${p}/n^2\to \infty$, then $Q^*(1-\alpha)$, the $1-\alpha$ quantile of $T_2-\sum_{i=r+1}^{p}\lambda_i$, satisfies
+            %\begin{equation*}
+    %Q(1-\alpha)\gtrsim 
+                %\frac{p}{n}.
+            %\end{equation*}
+        \item
+        Suppose $n,p\to \infty$ and
+    \begin{equation}\label{nullTheorem:eq4}
+        \frac{p}{n^2}\to 0,\quad \quad
+        \frac{\lambda_1\max(p,n)}{\sqrt{p}\max\big(n\lambda_r,\max(p,n)\big)}\to 0.
+        %\frac{p}{n\lambda_r}=O(1),
+        %\quad\quad
+        %\frac{\max(p,n)\lambda_1}{n\sqrt{p}\lambda_r}\to 0,
+    \end{equation}
+        then
+        $$\frac{T_2-(p-r)\hat{\sigma}^2}{\sqrt{2\sum_{i=r+1}^p \lambda_i^2}}\xrightarrow{\mathcal{L}}N(0,1).$$
+    \end{enumerate}
+
+
+
+\end{theorem}
+\begin{remark}
+
+    If $\lambda_1\asymp\lambda_r$, then~\eqref{nullTheorem:eq4} is equivalent to $p/n^2\to 0$.
+In this case, it can be shown that $p/n^2\to 0$ is the necessary condition for asymptotic normality
+\end{remark}
+\begin{proof}
+
+
+    Under the null hypothesis
+    $$
+    \hat{\tilde{V}}^T (\bar{X}_1-\bar{X}_2)=\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2).
+    $$
+    Hence
+    $$
+    T_2=\frac{1}{\tau}\|\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)\|^2.
+    $$
+
+    By the property of normal random variables, $\{\bar{Z_1},\bar{Z_2}\}$ are independent of $S$.
+    Since $\hat{\tilde{V}}$ only depends on $S$, it is independent of $\{\bar{Z_1},\bar{Z_2}\}$.
+    It can be easily shown that
+    \begin{equation}\label{nullTheorem:twoTerms}
+    \begin{split}
+        \frac{1}{\tau}\|\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)\|^2\sim&
+    \sum_{i=1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2\\
+        =&
+         \sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    +
+     \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    ,
+    \end{split}
+    \end{equation}
+    where $\{\xi_{i}\}_{i=1}^{p-r}$ are independent standard normal random variables and are independent of $\hat{\tilde{V}}$.
+
+
+    First we deal with 
+        $\sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2$.
+    By writting out
+    $$
+    U\Lambda U^T
+    =
+    V\Lambda_{(1)}V^T+
+    \tilde{V}\Lambda_{(2)}\tilde{V}^T,
+    $$
+    we have matrix inequality
+    $$
+    \lambda_r VV^T 
+    \leq
+    U\Lambda U^T
+    \leq \lambda_1 VV^T +CI_p.
+    $$
+    Thus, for $i= 1,\ldots,r$, we have
+    $$
+    \lambda_r \lambda_i(\hat{\tilde{V}}^T U U^T \hat{\tilde{V}})
+    \leq
+    \lambda_i(\hat{\tilde{V}}^T U\Lambda U^T \hat{\tilde{V}})
+    \leq
+    \lambda_1 \lambda_i(\hat{\tilde{V}}^T V V^T \hat{\tilde{V}})+C.
+    $$
+Then $
+    \sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    $
+    can be upper and lower bounded
+$$
+    \lambda_r \lambda_r(\hat{\tilde{V}}^T V V^T \hat{\tilde{V}})
+    \sum_{i=1}^{r} 
+    \xi_i^2
+\leq
+    \sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    \leq
+    (\lambda_1 \lambda_1(\hat{\tilde{V}}^T V V^T \hat{\tilde{V}})+C)
+    \sum_{i=1}^{r} 
+    \xi_i^2.
+$$
+
+
+Now by Theorem~\ref{theoremEigenvectors} and the independence of $\hat{\tilde{V}}$ and $\xi_i$'s, with probability at least $1-3\exp(-t^2/2)$, we have
+    \begin{equation}\label{nullTheorem:eqLong1}
+    \sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    \leq
+\big(\frac{C\lambda_1}{n\hat{\lambda}_r}(\sqrt{p-r}+\sqrt{n-2}+t)^2+C\big) q_1(r,t)
+,
+    \end{equation}
+     where $q_1(r,t)$ is the $1-\exp(-t^2/2)$ quantile of $\chi^2_r$.
+ Theorem~\ref{PCATheoremEigenvalue} can lower bound $\hat{\lambda}_r$ which appears in the right hand side of~\eqref{nullTheorem:eqLong1}.
+ More precisely,
+with probability at least $1-9\exp(-t^2/2)$, we have
+    \begin{equation}\label{nullTheorem:eqLong}
+            {\hat{\lambda}_r}\geq 
+            \nu(t,\lambda_r,n,p),
+    \end{equation}
+ where
+\begin{equation*}
+        \begin{split}
+            &\nu(t,\lambda_r,n,p)=
+            \max \Big(\lambda_r\big(1-\frac{2}{\sqrt{n-2}}(\sqrt{r}+t)\big),\\
+            &\frac{c\max(p-r,n-2)}{n-2} \big( 1-\sqrt{\frac{2}{(p-r)(n-2)}}t-
+            (r-1)\big(\frac{1}{\sqrt{p-r}}+\frac{1}{\sqrt{n-2}}+\frac{t}{\sqrt{(p-r)(n-2)}}\big)^2 \big) \Big).
+        \end{split}
+    \end{equation*}
+
+
+
+As a conclusion of~\eqref{nullTheorem:eqLong1} and~\eqref{nullTheorem:eqLong}, as $n,p \to \infty$, 
+\begin{equation}\label{nullTheorem:eq97}
+    \sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    =
+O_P\Big(\frac{\lambda_1\max(p,n)}{\max\big(n\lambda_r,\max(p,n)\big)}\Big).
+\end{equation}
+%Since $\frac{p}{n\lambda_r}=O(1)$, 
+%\begin{equation*}
+%\frac{\lambda_1\max(p,n)}{n\lambda_r\max\big(1,\frac{\max(p,n)}{n\lambda_r}\big)}=o\Big(\sqrt{2\sum_{i=r+1}^p \lambda_i^2}\Big) 
+%\quad\textrm{if and only if}\quad
+%\frac{ \max(p,n)\lambda_1}{
+    %n\sqrt{p}\lambda_r 
+%}\to 0.
+%\end{equation*}
+
+By~\eqref{nullTheorem:eq4} and~\eqref{nullTheorem:eq97}, 
+
+\begin{equation}\label{nullTheorem:eq3}
+\sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+=o_p\Big(\sqrt{2\sum_{i=r+1}^p \lambda_i^2}\Big).
+\end{equation}
+
+
+%If $p-r\geq n-2$, then with probability at least $1-3\exp(-t^2/2)$, we have
+%\begin{equation}\label{nullTheorem:mei1}
+    %\sum_{i=1}^{r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+%\geq
+%\frac{c\lambda_r}{n\hat{\lambda}_1}(\sqrt{p-r}-\sqrt{n-2}-t)^2
+%q_0(r,t)
+%,
+%\end{equation}
+%where $q_0(r,t)$ is the $\exp(-t^2/2)$ quantile of $\chi^2_r$.
+%And $\hat{\lambda}_1$ can be also upper bounded by Theorem~\ref{PCATheoremEigenvalue}.
+
+
+
+    %For $i=r+1,\ldots,p-r$, $\lambda_i(\hat{\tilde{V}}^T U\Lambda U^T \hat{\tilde{V}})$
+  Turning to the second term of~\eqref{nullTheorem:twoTerms}.
+Since $c\leq \lambda_i\leq C$, $i=r+1,\ldots,p$. By Lemma~\ref{PCAlemma1}, with probability at least $1-\exp(-t^2/2)$, we have
+    \begin{equation}\label{nullTheorem:eqmm1}
+    \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    \leq \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) +\sqrt{2p}Ct + Ct^2.
+    \end{equation}
+%%On the other hand, with probability at least $1-\exp(-t^2/2)$, we have
+    %\begin{equation}\label{nullTheorem:eqnn}
+    %\sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    %\geq \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) -\sqrt{2p}ct.
+    %\end{equation}
+  
+  For $i= r+1,\ldots,p-r$, we have that
+    $$
+    \lambda_i(\hat{\tilde{V}}^T U\Lambda U^T \hat{\tilde{V}})
+    =
+    \lambda_i(\Lambda^{1/2} U^T \hat{\tilde{V}}\hat{\tilde{V}}^T U\Lambda^{1/2})
+    =
+    \lambda_i(\Lambda-\Lambda^{1/2} U^T\hat{V}\hat{V}^T U\Lambda^{1/2}).
+    $$
+    Since $\myrank(\Lambda^{1/2} U^T\hat{V}\hat{V}^T U\Lambda^{1/2})=r$, by Weyl's inequality, $\lambda_i(\hat{\tilde{V}}^T U\Lambda U^T \hat{\tilde{V}})$ can be bounded by
+    \begin{equation}\label{nullTheorem:Weyl}
+    \lambda_{i+r}
+    \leq \lambda_i(\hat{\tilde{V}}^T U\Lambda U^T \hat{\tilde{V}})\leq \lambda_i.
+    \end{equation}
+
+By~\eqref{nullTheorem:Weyl}, $\sum_{i=r+1}^p \lambda_i -rC\leq \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}})\leq \sum_{i=r+1}^p \lambda_i$, then~\eqref{nullTheorem:eqmm1} implies
+    \begin{equation}\label{nullTheorem:eqmm}
+    \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    \leq \sum_{i=r+1}^p \lambda_i+\sqrt{2p}Ct + Ct^2,
+    \end{equation}
+    %and~\eqref{nullTheorem:eqnn} implies
+    %\begin{equation}\label{nullTheorem:eqnn1}
+    %\sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    %\geq \sum_{i=r+1}^p \lambda_i -\sqrt{2p}ct-rC.
+    %\end{equation}
+
+
+
+As another conclusion of~\eqref{nullTheorem:Weyl},
+    $$
+    \sum_{i=r+1}^{p-r}\lambda_{i+r} \xi_i^2   \leq
+    \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    \leq
+\sum_{i=r+1}^{p-r}\lambda_i \xi_i^2.
+    $$
+By Lyapunov's central limit theorem, as $p\to \infty$,
+$$
+    \frac{
+        \sum_{i=r+1}^{p-r} \lambda_i (\hat{\tilde{V}}^T U \Lambda U^T \hat{\tilde{V}}) \xi_i^2
+    -\sum_{i=r+1}^{p}\lambda_i}{
+    \sqrt{2\sum_{i=r+1}^p\lambda_i^2}
+    }
+    \xrightarrow{\mathcal{L}}N(0,1).
+    $$
+    Together with~\eqref{nullTheorem:eq3}, we can deduce that under~\eqref{nullTheorem:eq3},
+\begin{equation}\label{nullTheorem:eq2}
+\begin{split}
+    \frac{
+        \tau^{-1}\|\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)\|^2
+        -\sum_{i=r+1}^p \lambda_i
+    }
+    {
+    \sqrt{2\sum_{i=r+1}^p\lambda_i^2}
+    }
+    \xrightarrow{\mathcal{L}}N(0,1).
+\end{split}
+\end{equation}
+Next we deal with $\hat{\sigma}^2$.
+By Theorem~\ref{PCAsigma}, with probability at least $1-4\exp(-t^2/2)$, we have
+\begin{equation}\label{nullTHeorem:eq10}
+\Big|
+\frac{\hat{\sigma}^2}{(p-r)^{-1}\sum_{i=r+1}^p \lambda_i}-1
+\Big|
+\leq
+\frac{1}{(n-2)\sum_{i=r+1}^p \lambda_i}
+\big(
+rC(\sqrt{p-r}+\sqrt{n-2}+t)^2+\sqrt{2(n-2)p}Ct+Ct^2
+\big).
+\end{equation}
+It follows that
+\begin{equation}\label{nullTheorem:eq1}
+\hat{\sigma}^2
+    =\frac{\sum_{i=r+1}^p \lambda_i}{p-r}+O_p(\frac{1}{\min(n,p)}).
+\end{equation}
+By~\eqref{nullTheorem:eq2},~\eqref{nullTheorem:eq1},~\eqref{nullTheorem:eq4} and Slutsky's theorem, we have
+\begin{equation}
+\begin{split}
+    &\frac{
+        \tau^{-1}\|\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)\|^2
+        -(p-r)\hat{\sigma}^2
+    }
+    {
+    \sqrt{2\sum_{i=r+1}^p\lambda_i^2}
+    }\\
+    =&
+    \frac{
+        \tau^{-1}\|\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)\|^2
+        -
+    \sum_{i=r+1}^p \lambda_i
+    }
+    {
+    \sqrt{2\sum_{i=r+1}^p\lambda_i^2}
+    }
+    +O_p(\frac{\sqrt{p}}{\min(n,p)})
+    \xrightarrow{\mathcal{L}}N(0,1).
+\end{split}
+\end{equation}
+Conclusion $(b)$ is established.
+
+
+
+    With probability at least $1-17\exp(-t^2/2)$, inequality~\eqref{nullTheorem:eqLong1},~\eqref{nullTheorem:eqLong},~\eqref{nullTheorem:eqmm} and~\eqref{nullTHeorem:eq10} are satisfied simultaneously.
+    Choose $t^*$ such that $17\exp(-t^{*2}/2)=\alpha$.
+    Then~\eqref{nullTheorem:eqLong1},~\eqref{nullTheorem:eqLong},~\eqref{nullTheorem:eqmm} and~\eqref{nullTHeorem:eq10} imply that
+\begin{equation*}
+    \begin{split}
+        Q(1-\alpha)&\leq
+\sum_{i=r+1}^p \lambda_i+\sqrt{2p}Ct^* +C t^{*2}
+    +
+\big(\frac{C\lambda_1}{n\nu(t^*,\lambda_r,n,p)}(\sqrt{p-r}+\sqrt{n-2}+t^*)^2+C\big) q_1(r,t^*)\\
+        &-\Big(\sum_{i=r+1}^p \lambda_i-
+        \frac{1}{n-2}
+\big(
+rC(\sqrt{p-r}+\sqrt{n-2}+t)^2+\sqrt{2(n-2)p}Ct+Ct^2
+        \big)\Big)\\
+        %&\lesssim
+        &\asymp
+        \sqrt{p}+\frac{p}{n}+\frac{\lambda_1\max(p,n)}{n \nu(t^*,\lambda_r,n,p)}
+        \asymp
+        \sqrt{p}+\frac{p}{n}+\frac{\lambda_1\max(p,n)}{\max(n\lambda_r,\max(p,n))}.
+    \end{split}
+\end{equation*}
+Conclusion $(a)$ is established.
+
+%Conclusion $(b)$ can be proved similarly.
+    %Choose $t^*$ such that $17\exp(-t^{*2}/2)=1-\alpha$.
+ %By~\eqref{nullTheorem:mei1}, Theorem~\ref{PCATheoremEigenvalue} and~\eqref{nullTheorem:eqnn1}, we have
+%$$
+%\begin{aligned}
+    %Q(1-\alpha)\geq&
+%\sum_{i=r+1}^p \lambda_i-\sqrt{2p}Ct^* -rC
+    %+
+%\frac{C\lambda_r(\sqrt{p-r}-\sqrt{n-2}-t^*)^2}{n\nu'(t^*,\lambda_1,n,p)} q_1(r,t^*)-\sum_{i=r+1}^p \lambda_i\\
+%\end{aligned}
+%$$
+%where 
+%$$
+%\begin{aligned}
+    %\nu'(t^*,\lambda_1,n,p)&=\lambda_1(1+\frac{2}{\sqrt{n-2}}(\sqrt{r}+t^*)+\frac{1}{n-2}(\sqrt{r}+t^*)^2+\frac{C}{(n-2)\lambda_1}(\sqrt{p-r}+\sqrt{n-2}+t^*)^2)
+    %\\
+    %&\asymp
+    %\lambda_1(1+\frac{p}{n \lambda_1}).
+%\end{aligned}
+%$$
+%Hence
+%$$
+%\begin{aligned}
+    %Q(1-\alpha)\gtrsim& -\sqrt{p}+\frac{\lambda_r p}{n\lambda_1(1+p/(n\lambda_1))}\asymp \frac{p}{n}.
+%\end{aligned}
+%$$
+
+
+
+\end{proof}
+
+\begin{theorem}
+    Let $r$ be fixed as $n,p\to\infty$.
+    Suppose $np^{-1/2}\|\mu_1-\mu_2\|^2=O(1)$, ${\lambda_1}/{\sqrt{p}}\to \infty$ and~\eqref{nullTheorem:eq4} holds.
+    Then
+        $$\frac{T_2-(p-r)\hat{\sigma}^2-\tau^{-1}\|\tilde{V}^T(\mu_1-\mu_2)\|^2}{\sqrt{2\sum_{i=r+1}^p \lambda_i^2}}\xrightarrow{\mathcal{L}}N(0,1).$$
+\end{theorem}
+\begin{proof}
+
+    Since
+    $$
+    \hat{\tilde{V}}^T (\bar{X}_1-\bar{X}_2)=\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)+\hat{\tilde{V}}^T (\mu_1-\mu_2),
+    $$
+    $T_2$ can be written as the sum of three terms
+    $$
+    T_2=\tau^{-1}\|\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)\|^2+
+ 2\tau^{-1}(\mu_1-\mu_2)^T\hat{\tilde{V}}\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)
++
+    \tau^{-1}\|\hat{\tilde{V}}^T (\mu_1-\mu_2)\|^2.
+    $$
+The first term has  normal distribution asymptotically.
+    We now deal with the second term.
+    Note that
+    $$\tau^{-1}(\mu_1-\mu_2)^T\hat{\tilde{V}}\hat{\tilde{V}}^T U \Lambda^{1/2}(\bar{Z}_1-\bar{Z}_2)\sim
+    \sqrt{\tau^{-1} (\mu_1-\mu_2)^T\hat{\tilde{V}}\hat{\tilde{V}}^T U\Lambda U^T\hat{\tilde{V}}\hat{\tilde{V}}^T(\mu_1-\mu_2)}
+    \xi,
+    $$
+    where $\xi$ is a standard normal variable and is independent of $\hat{\tilde{V}}$.
+    Similar to the prove of~\eqref{nullTheorem:eq3},
+    \begin{equation}\label{buxiangxie2}
+        \begin{split}
+            &\sqrt{\tau^{-1} (\mu_1-\mu_2)^T\hat{\tilde{V}}\hat{\tilde{V}}^T U\Lambda U^T\hat{\tilde{V}}\hat{\tilde{V}}^T(\mu_1-\mu_2)}
+    \leq
+            \sqrt{\tau^{-1}} \|\mu_1-\mu_2\|    
+    \sqrt{\lambda_{\max}(\hat{\tilde{V}}^T U\Lambda U^T\hat{\tilde{V}})}\\
+            \leq&
+            \sqrt{\tau^{-1}} \|\mu_1-\mu_2\|    
+    \sqrt{\lambda_1\lambda_{\max}(\hat{\tilde{V}}^T VV^T \hat{\tilde{V}})+C}
+            =o_P(n^{1/2}p^{1/4}\|\mu_1-\mu_2\|)
+            = o_P(\sqrt{p}).
+        \end{split}
+    \end{equation}
+
+Next we deal with $    \tau^{-1}\|\hat{\tilde{V}}^T (\mu_1-\mu_2)\|^2$. Note that
+    \begin{equation}\label{buxiangxie}
+        \begin{split}
+            &\Big|\tau^{-1}\|\hat{\tilde{V}}^T (\mu_1-\mu_2)\|^2-\tau^{-1}\|\tilde{V}^T (\mu_1-\mu_2)\|^2\Big|\\
+            =&\tau^{-1}\Big|(\mu_1-\mu_2)^T(\hat{\tilde{V}}\hat{\tilde{V}}^T -\tilde{V}\tilde{V}^T) (\mu_1-\mu_2)\Big|\\
+            \leq&
+            \tau^{-1}\|\hat{\tilde{V}}\hat{\tilde{V}}^T -\tilde{V}\tilde{V}^T\| \|\mu_1-\mu_2\|^2
+            =\tau^{-1}\|\hat{V}\hat{V}^T -VV^T\| \|\mu_1-\mu_2\|^2\\
+            \leq&\tau^{-1}\|\hat{V}\hat{V}^T -VV^T\|_F \|\mu_1-\mu_2\|^2
+            =\tau^{-1}\sqrt{2\mytr(\tilde{V}^T\hat{V}\hat{V}^T \tilde{V})} \|\mu_1-\mu_2\|^2\\
+            \leq& \tau^{-1}\sqrt{2r\lambda_{\max}(\tilde{V}^T\hat{V}\hat{V}^T \tilde{V})} \|\mu_1-\mu_2\|^2.
+        \end{split}
+    \end{equation}
+Condition ${\lambda_1}/{\sqrt{p}}\to \infty$ and~\eqref{nullTheorem:eq4} require
+$$
+        \frac{\max(p,n)}{\max\big(n\lambda_r,\max(p,n)\big)}\to 0,
+    $$
+    which in turn implies $\lambda_{\max}(\tilde{V}^T\hat{V}\hat{V}^T \tilde{V})\to 0$ in probability by Theorem~\ref{theoremEigenvectors}.
+    Then~\eqref{buxiangxie} implies
+    \begin{equation}\label{buxiangxie1}
+        \begin{split}
+            \tau^{-1}\|\hat{\tilde{V}}^T (\mu_1-\mu_2)\|^2=\tau^{-1}\|\tilde{V}^T (\mu_1-\mu_2)\|^2+o_P(\sqrt{p}).
+        \end{split}
+    \end{equation}
+    The theorem follows by Theorem~\ref{xxxTheorem},~\eqref{buxiangxie2},~\eqref{buxiangxie1} and Slutsky's theorem.
+
+\end{proof}
+
 
  
 
 
-\begin{theorem}\label{myPanpan}
-    Under Assumptions~\ref{balance}-\ref{pAndN},
-if the local alternative holds, that is,
-    $$\frac{n}{\sqrt{p}}\|\mu_1-\mu_2\|^2=O(1),$$
-then 
-\begin{equation*}
-        \frac{T_2-\|\tilde{V}^T(\mu_1-\mu_2)\|^2}{\sigma^2\sqrt{2\tau^2 p}}\xrightarrow{\mathcal{L}}N(0,1).
-\end{equation*}
-\end{theorem} 
-\begin{remark}
-The Assumption~\ref{pAndN} is a strong condition.
-However, it may not be able to be relaxed. In fact, the asymptotic normality of $\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2$, the major part of $T_2$, requires 
+
+The asymptotic normality of $T_2$ requires condition~\eqref{nullTheorem:eq4}, which is strong.
+However, it may not be able to be relaxed.
+For simplicity, suppose $\lambda_1\asymp \lambda_r$. Then~\eqref{nullTheorem:eq4} is equivalent to $p/n^2\to 0$.
+The asymptotic normality of $\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2$, the main major part of $T_2$, requires 
 \begin{equation}\label{eqREML}
     \frac{\lambda_1\big(\big(\hat{\tilde{V}}^T \Sigma \hat{\tilde{V}}\big)^2\big)}{\mathrm{tr}\big(\big(\hat{\tilde{V}}^T \Sigma \hat{\tilde{V}}\big)^2\big)
 }\xrightarrow{P} 0.
 \end{equation}
-See Lemma~\ref{quadraticFormCLT} in appendix. And~\eqref{eqREML} is equivalent to Assumption~\ref{pAndN} by Lemma~\ref{conRateLemma} in appendix.
-\end{remark}
+See Lemma~\ref{quadraticFormCLT} in appendix. And~\eqref{eqREML} is equivalent to $p/n^2\to 0$ by Lemma~\ref{conRateLemma} in appendix.
 
 
 
@@ -75,17 +477,6 @@ By Proposition~\ref{varianceEstimation}  and Theorem~\ref{myPanpan}, the power f
 which is large when $\beta>1/2$ and $\|\tilde{V}(\mu_1-\mu_2)\|/\|\mu_1-\mu_2\|$ is close to $1$.
 
 
-When Assumption~\ref{pAndN} doesn't met, the asymptotic normality are not valid.
-The next theorem  gives an asymptotic result in this case.
-\begin{theorem}
-    Under Assumptions~\ref{balance}-\ref{theModel2} and $p/n^2\to \infty$,
-if the local alternative holds, that is,
-    $$\|\mu_1-\mu_2\|^2....$$
-then 
-\begin{equation*}
-    \frac{T_2-\|\tilde{V}^T(\mu_1-\mu_2)\|^2}{...}
-\end{equation*}
-\end{theorem}
 However, this does not mean the new statistic can not be used.
 In fact, since the samples are exchangeable under null hypothesis, we can always use permutation method to determine the critical value.
 We will see from simulation results that the new test has good power behavior even in large $p$ small $n$ case.

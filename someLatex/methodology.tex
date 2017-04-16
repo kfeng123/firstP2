@@ -1,5 +1,5 @@
 
-\section{Methodology}
+\section{Test Statistic}
 
 In this section, we describe our new test procedure for hypotheses~\eqref{problem}. For simplicity, we now work on equal covariance setting and unequal covariance setting will be considered latter.
 \begin{assumption}\label{theModel2}
@@ -11,168 +11,57 @@ To simplify notations, the subscript $k$ of $\Sigma_k$, $V_k$, $D_k$, $\Lambda_k
 %X_{ki}=\mu_k+V D U_{ki}+Z_{ki}.
 %\end{equation}
 
-\subsection{Motivation}
- %Facing a testing problem, a general pattern to derive a new test can be summarized as $3$ steps.
- %The first step is to propose a new statistic $T(X)$. 
- %Usually,  $T(X)$ is chosen to be an estimator of certain `distance' between null and alternative. $\mathrm{E}T=0$ under null and $\mathrm{E}T> 0$  under alternative.
- In high dimensional setting, many test procedures for hypotheses~\eqref{problem} is based on a statistic $T(X)$ which estimates ${(\mu_1-\mu_2)}^T A(\mu_1-\mu_2)$.
- Usually, $T(X)$ satisfies $\mathrm{E}T=0$ under null hypothesis and $\mathrm{E}T> 0$  under alternative.
- To determine the critical value, the asymptotic distribution of $T$ need to be derived, say 
- $$\frac{T-\textrm{E}T}{\sqrt{\textrm{Var}(T)}}\xrightarrow{\mathcal{L}} N(0,1).$$
- Since $\textrm{Var}(T)$ may depend on parameters, a ratio consistent estimator $\widehat{\textrm{Var}(T)}$ of $\textrm{Var}(T)$ is necessary. Then
- the rejection region of a level $\alpha$ test can be defined as $T(X)\geq \widehat{\textrm{Var}(T)}^{\frac{1}{2}}z_{1-\alpha}$ where $z_{1-\alpha}$ is the $1-\alpha$ quantile of $N(0,1)$. 
-% Tests derived by the above pattern have an advantage in that it's clear what kind of alternatives the test favors. Many test procedures have been proposed for different $A$. In essence, test procedures for different $A$ are incomparable since they test different alternatives. For example, $T_{CQ}$ outperforms $T_S$ when $\Sigma$ is nearly an identity matrix. However, $T_S$ performs better when different variables are in different scales. 
-%In general, it remains an important question that how to boost test power for a given `distance'.
-The asymptotic power of the test is 
-$$\Phi(\frac{\mathrm{E}T}{\sqrt{\mathrm{Var}(T)}}-z_{1-\alpha}).$$
-Thus, a general idea to boost the power of test is to reduce the variance $\mathrm{Var}(T)$ while the mean $\mathrm{E}(T)$ varies relatively little.
+In high dimensional setting, it is well-known that $S$ is singular when $p\geq n-1$.
+As a result, Hotelling's $T^2$ statistic can not be defined.
+Since $\Sigma$ has $p(p+1)/2$ independent parameters, it is hard to estimate when $p$ is large compared with $n$.
+Therefore, for most recent work of high dimensional variance estimation, some additional assumptions, e.g.\ sparsity or low-rank, are adopted to regularize parameter space. For some recent development of this direction, see~\cite{Fan2015An}. 
 
-Now we revisit $T_{BS}$ and $T_{CQ}$ which are both based on the estimation of $\|\mu_1-\mu_2\|^2$.
-The main body of both $T_{BS}$ and $T_{CQ}$ is
-$
-    \tau{(\bar{X}_1-\bar{X}_2)}^T (\bar{X}_1-\bar{X}_2)
-$, and can be written as
-\begin{equation}\label{mot:1}
-    \tau{(\bar{X}_1-\bar{X}_2)}^T V V^T (\bar{X}_1-\bar{X}_2)+
-    \tau{(\bar{X}_1-\bar{X}_2)}^T \tilde{V} \tilde{V}^T (\bar{X}_1-\bar{X}_2).
+
+Some existing tests for hypothesis~\eqref{problem} can be regarded as the likelihood ratio test (LRT) under restricted covariance matrix.
+In fact, $\|\bar{X}_1-\bar{X}_2\|^2$, the main body of both $T_{BS}$ and $T_{CQ}$, is the LRT statistic assuming that $\Sigma=\sigma^2 I_p$ where $\sigma^2$ is unknown.
+And $T_S$ is the LRT statistic assuming that $\Sigma$ is a diagonal matrix with unknown diagonal elements.
+Although these methods are proved to be valid in more general setting, assumptions like~\eqref{chenscondition} are often adopted. 
+In many applications, assumption~\eqref{chenscondition} may not be realistic due to the presence of common factors between variables.
+We derive a test statistic suitable for such applications.
+
+Consider the following restriction for $\Sigma$
+\begin{equation}\label{andersonAssumption}
+    \lambda_{r+1}(\Sigma)=\cdots=\lambda_p(\Sigma)=\sigma^2,
 \end{equation}
-Under the null hypotheses, it can be seen that $\tau{(\bar{X}_1-\bar{X}_2)}^T V V^T (\bar{X}_1-\bar{X}_2)\sim \sum_{i=1}^r (\lambda_i+\sigma^2)\chi^2_1$ with variance $\sum_{i=1}^r 2(\lambda_i+\sigma^2)^2$ and $\tau{(\bar{X}_1-\bar{X}_2)}^T \tilde{V} \tilde{V}^T (\bar{X}_1-\bar{X}_2)\sim \sigma^2\chi^2_{p-r}$ with variance $2\sigma^4 (p-r)$.
-The ratio of the two variance is
-$$
-\frac{\sum_{i=1}^r 2(\lambda_i+\sigma^2)^2}{2\sigma^4 (p-r)}
-\asymp
-p^{2\beta-1}.
-$$
-Thus when $\beta>1/2$, the variance of the first term of~\eqref{mot:1} is very large compared with the second term while the signal it contains may be relatively weak since it only involves $r$ dimension.
- By our previous argument, in~\eqref{mot:1}, we remove the first term and only use the second term.
-We define the following statistic
-\begin{equation*}
-\begin{aligned}
-    T_{1}&=\|\tilde{V}^T(\bar{X}_1-\bar{X}_2)\|^2-\frac{1}{n_1}\mathrm{tr}(\tilde{V}^T S_1\tilde{V})-\frac{1}{n_2}\mathrm{tr}(\tilde{V}^T S_2\tilde{V}).
-    \\
-    %&=\frac{\sum_{i\neq j}^{n_1}X_{1i}^T\tilde{V}\tilde{V}^T X_{1j}}{n_1(n_1-1)}+\frac{\sum_{i\neq j}^{n_2}X_{2i}^T\tilde{V}\tilde{V}^T X_{2j}}{n_2(n_2-1)}-2\frac{\sum_{i=1}^{n_1}\sum_{j=1}^{n_2}X_{1i}^T\tilde{V}\tilde{V}^T X_{2j}}{n_1n_2}
-\end{aligned}
-\end{equation*}
-%The argument is also supported by the likelihood ratio test. If $\Sigma$ is known, the LRT is based on 
-%\begin{equation}\label{qifafa}
-    %{(\bar{X}_1-\bar{X}_2)}^T\Sigma^{-1}(\bar{X}_1-\bar{X}_2)=\frac{n_1 n_2}{n_1+n_2}\sum_{i=1}^p \lambda_i^{-1}{(\bar{X}_1-\bar{X}_2)}^T  p_i p_i^T (\bar{X}_1-\bar{X}_2).
-%\end{equation}
-%The difference between~\eqref{qifa} and~\eqref{qifafa} is the weights $\lambda_i^{-1}$.
-%% For LRT, large $\lambda_i$'s corresponds to small weights in the sum.
-%%If $\lambda_i$ is large, then the corresponding term has a small weight $\lambda_i^{-1}$ in the sum. 
-%Unfortunately, $\lambda_i$'s are hard to precisely estimate in high dimensional setting. See~\cite{bai2010spectral} for detail. Nevertheless, it's possible to identify which $\lambda_i$'s are large. LRT implies the corresponding terms should have small weights, which coincides with our previous idea.
-%If we assume there are correlations between $p$ variables, e.g. $\Sigma=(1-c)I+c\bm{1}_p \bm{1}_p^T$ where c is a constant fulfill $-\frac{1}{p-1}<c<1$, then $\frac{n_1 n_2}{n_1+n_2} {(\bar{X}_1-\bar{X}_2)}^T  p_1 p_1^T (\bar{X}_1-\bar{X}_2)$ distributed as $(cp+1-c)\chi^2_1$ whose variance is of order $p^2$ while $\frac{n_1 n_2}{n_1+n_2}\sum_{i=2}^p {(\bar{X}_1-\bar{X}_2)}^T  p_i p_i^T (\bar{X}_1-\bar{X}_2)$ is distributed as $(1-c)\chi^2_{p-1}$ whose variance is of order $p$. 
-%The large variance is totally caused by term $p\chi^2_1$. 
-%If we remove $\frac{n_1 n_2}{n_1+n_2} {(\bar{X}_1-\bar{X}_2)}^T  p_1 p_1^T (\bar{X}_1-\bar{X}_2)$ from $T_{BS}$, the variance of $T_{BS}$ can be significantly reduced to order $p$ from order $p^2$.
-
-%Note that $\Sigma=(1-c)I+c\bm{1}_p+\bm{1}_p^T$ is just a special case of spiked covariance.
-Proposition~\ref{oracleTheorem} gives the asymptotic distribution of $T_1$.
-
-\begin{proposition}\label{oracleTheorem}
-    Under Assumptions~\ref{balance}-\ref{theModel2} and local alternative, that means, $\frac{n}{p}\|\mu_1-\mu_2\|^2\to 0$, we have 
-    \begin{equation*}
-        \frac{T_1-\|\tilde{V}^T(\mu_1-\mu_2)\|^2}
-        {\sigma^2\sqrt{2\tau^2 p}}\xrightarrow{\mathcal{L}}N(0,1).
-    \end{equation*}
-\end{proposition}
-
-\begin{remark}
-    The asymptotic variance of $T_1$ is of order $\tau^2 p$ while the asymptotic variance of $T_{CQ}$ is of order $\tau^2 p^{2\beta}$ by~\cite{Chen2010A}'s Theorem $1$.
-    The asymptotic variance is reduced significantly if $\beta>1/2$ and $p$ is sufficiently large.
-\end{remark}
-
-
-In another point of view,
-$T_1$ is obtained by transforming $X_{ki}$ to $\tilde{V}^T X_{ki}$ ($i=1,\ldots, n_k$, $k=1,2$) and then invoking the statistic of~\cite{Chen2010A}.
-Several test procedures have been proposed through random projection to lower dimensional space, for example,~\cite{Lopes2015A},~\cite{Thulin2014A} and~\cite{Srivastava2014RAPTT}.
-Proposition~\ref{oracleTheorem} implies that transforming $X_{ki}$ to $\tilde{V}^T X_{ki}$ is optimal in terms of reducing the variance. Note that the transformation removes the nuisance parameters $\lambda_1,\ldots,\lambda_r$. Based on $\tilde{V}^T X_{ki}$, the likelihood ratio test statistic is
-    $\|\tilde{V}^T (\bar{X}_1-\bar{X}_2)\|^2$. In this sense, $T_1$ can be seen as a restricted likelihood ratio test.
-
-
-
-%\begin{remark}If $V$ is known, the model in Assumption~\ref{theModel} is very similar to random effects model. And our idea is just like REstricted Maximum Likelihood (REML).
-%\end{remark}
-
-%\begin{remark}
-%    Suppose $\mu_1=\mu_2$. When $\beta>1/2$, the order of $T_1$'s variance is smaller than the order of $T_{CQ}$'s variance, which implies $T_1/(\sigma^2\sqrt{2\tau^2 p})$ is asymptotically independent of $T_{CQ}/\sqrt{2\tau^2 \mathrm{tr}\Sigma^2}$. Hence $T_1$ does provide additional information, although $T_1$ is inherited from $T_{CQ}$.  
-%\end{remark} 
-
-
-\subsection{New Test}
-We denote by $\hat{V}$ and $\hat{\tilde{V}}$ the first $r$ and last $p-r$ eigenvectors of $S$ respectively.
-Similarly, we denote by  $\hat{V}_i$ and $\hat{\tilde{V}}_i$ the first $r$ and last $p-r$ eigenvectors of $S_i$ respectively, $i=1,2$.
- As estimators of their population counterparts, these simple statistics actually reach the optimal convergence rate (See~\cite{Cai2012Sparse}).
-
-Since $T_1$ depends on subspace $\tilde{V}\tilde{V}^T$ which is unknown, we must estimate it.
-The first part of $T_1$ is $\|\tilde{V}^T (\bar{X}_1-\bar{X}_2)\|^2$.
-We estimate it directly by $\|\hat{\tilde{V}}^T (\bar{X}_1-\bar{X}_2)\|^2$.
-Note that the second part of $T_1$ is $\frac{1}{n_1}\mathrm{tr}(\tilde{V}^T S_1\tilde{V})$. Since it only involves sample one,
-we estimate it by $\frac{1}{n_1}\mathrm{tr}(\hat{\tilde{V}}_1^T S_1\hat{\tilde{V}}_1)$. Similarly, we estimate the third part of $T_1$ by $\frac{1}{n_2}\mathrm{tr}(\hat{\tilde{V}}_2^T S_2\hat{\tilde{V}}_2)$.
-Define
-\begin{equation*}
-\begin{aligned}
-    T_2&=\|\hat{\tilde{V}}^T(\bar{X}_1-\bar{X}_2)\|^2-\frac{1}{n_1}\mathrm{tr}(\hat{\tilde{V}}_1^T S_1\hat{\tilde{V}}_1)-\frac{1}{n_2}\mathrm{tr}(\hat{\tilde{V}}_2^T S_2\hat{\tilde{V}}_2).
-    %T_2=\frac{\sum_{i\neq j}^{n_1}X_{1i}^T\hat{\tilde{V}}\hat{\tilde{V}}^T X_{1j}}{n_1(n_1-1)}+\frac{\sum_{i\neq j}^{n_2}X_{2i}^T\hat{\tilde{V}}\hat{\tilde{V}}^T X_{2j}}{n_2(n_2-1)}
-%-2\frac{\sum_{i=1}^{n_1}\sum_{j=1}^{n_2}X_{1i}^T\hat{\tilde{V}}\hat{\tilde{V}}^T X_{2j}}{n_1n_2}
-\end{aligned}
-\end{equation*}
-The asymptotic result of Proposition~\ref{oracleTheorem} involves $\sigma^2$.
-In order to formulate a test procedure by asymptotic distribution, $\sigma^2$ needs to be consistently estimated.
-Note that $\sigma^2$ can be written as
-\begin{equation}\label{jjjVariance}
-    \sigma^2=\sum_{i=r+1}^{p}\lambda_i(\Sigma).
-\end{equation}
-It can be estimated by
-\begin{equation*}
-    \hat{\sigma}^2=\frac{1}{p-r}\sum_{i=r+1}^{p} \lambda_i(S).
-\end{equation*}
-Now we propose our new test statistic as
-\begin{equation}\label{myTest}
-    Q=\frac{T_2}{\hat{\sigma}^2\sqrt{2\tau^2 p}}.
-\end{equation}
-In next section, it will be proved that  the asymptotic distribution of $Q$ is $N(0,1)$ under null hypotheses. Thus, we reject the null hypothesis when $Q$ is larger than the upper $\alpha$ quantile of $N(0,1)$.
-
-\begin{remark}
-    Compared with random projection method, our projection is determined by the structure of $S_1$, $S_2$ and $S$.
-    We don't  project multiple times as random projection method did, which leads to reproducibility in practice.
-\end{remark}
-
-
-\begin{remark} The statistic $T_2$ is invariant under shift transformation, that is, $T_2$ is invariant when adding a vector to $X_{1i}$ and $X_{2j}$ simultaneously: $X_{1i}\mapsto X_{1i}+\mu$ and $X_{2j}\mapsto X_{2j}+\mu$, $i=1,\ldots,n_1$, $j=1,\ldots,n_2$.
-\end{remark}
-
-
-\begin{remark}
-If $r$ is an unknown positive number, a consistent estimator of $r$ is
-\begin{equation}\label{estimateR}
-    \hat{r}=\textrm{argmax}_{l\leq R}\frac{\lambda_l(S)}{\lambda_{l+1}(S)},
-\end{equation}
-where $R$ is a hyperparameter. See~\cite{Ahn2009Eigenvalue} for detail. Therefore, without loss of generality, we will assume that $r$ is known.
-%and deal with it saperately if $r=0$.
-\end{remark}
-
-    Theoretical results will show that the asymptotic variance of $T_2$ is significantly smaller than $T_{CQ}$. 
-    On the other hand, the new test statistic estimates $\|\tilde{V}^T(\mu_1-\mu_2)\|^2$.
-    Then the superiority of the new test will be established if 
+    where $r$ is a known number and $\sigma^2>0$ is unknown.
+    Under~\eqref{andersonAssumption},~\cite{Anderson1986Asymptotic} proved that the maximum likelihood estimator (MLE) of $\Sigma$ is $(n-2)n^{-1}\hat{\Sigma}$, where
+    $$
+    \hat{\Sigma}=\sum_{i=1}^r \hat{\lambda}_i \hat{u}_i \hat{u}_i^T
+    +\hat{\sigma}^2 \hat{\tilde{V}}\hat{\tilde{V}}^T,
+    $$
+and $\hat{\sigma}^2=(p-r)^{-1}\sum_{i=r+1}^p \hat{\lambda}_i$.
     
-\begin{equation}\label{yuedengyu}
-    \frac{\|\tilde{V}^T(\mu_1-\mu_2)\|}{\|\mu_1-\mu_2\|}\approx 1.
-\end{equation}
-Unfortunately,~\eqref{yuedengyu}
-is not always the case since there always exists some
-$\tilde{V}$ and $\mu_1-\mu_2$ such that $\|\tilde{V}^T(\mu_1-\mu_2)\|=0$.
-However,~\eqref{yuedengyu} is reasonable since $\tilde{V}\tilde{V}^T$ is nearly an identity matrix in the sense that
-    ${\|I_p-\tilde{V}\tilde{V}^T\|_F^2}/{\|I_p\|_F^2}=r/p\to 0$. 
-In bayesian framework, if we assume that the elements of $\mu_k$ are independently generated from certain probability distribution, it can be established that 
-\begin{equation*}
-    \frac{\|\tilde{V}(\mu_1-\mu_2)\|}{\|\mu_1-\mu_2\|}\xrightarrow{P}1.
-\end{equation*}
-Such assumption for $\mu_k$ will be used in Theorem~\ref{sameTheorem}.
+Surprisingly, $\hat{\Sigma}$ is invertible even if $p\geq n-1$ and 
+$$
+\hat{\Sigma}^{-1}=\sum_{i=1}^r \hat{\lambda}_i^{-1} \hat{u}_i \hat{u}_i^T
+    +\hat{\sigma}^{-2} \hat{\tilde{V}}\hat{\tilde{V}}^T.
+$$
+Thus, the LRT for hypothesis~\eqref{problem} always exists. And LRT reject the null hypothesis when
+$$
+T_{LRT}\overset{def}{=}\frac{1}{\tau}(\bar{X}_1-\bar{X}_2)^T \hat{\Sigma}^{-1}(\bar{X}_1-\bar{X}_2)
+$$
+is large.
+
+The distribution of Hotelling's $T^2$ test statistic doesn't depend on unknown parameter.
+Hence the critical value can be determined by exact distribution.
+However, even if~\eqref{andersonAssumption} holds, the distribution of
+$
+T_{LRT}
+$
+still depends on parameters.
+The critical value may be defined by asymptotic distribution or randomization methods.
 
 
 
-%When $\frac{\sqrt{p}}{n_1+n_2}\to 0$, the critical value of our test can be approximated by it's asymptotic distribution which we will encounter later.
-%However, it is a more practical issue to deal with the case when $n$ is small or the case when $p$ is much larger than $n$. In these cases, the null distribution is complicated and asymptotic distribution is a poor approximation of true distribution. Fortunately, permutation method can be used with the price of heavier computational burden. See~\cite{Lehmann}.
+
+
+
+
 
 
 
